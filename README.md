@@ -2,7 +2,6 @@
 
 **An R client for the NEAR Protocol JSON-RPC API**  
 [![CRAN status](https://www.r-pkg.org/badges/version/nearjsonrpc)](https://CRAN.R-project.org/package=nearjsonrpc)  
-[![R-CMD-check](https://github.com/yourusername/nearjsonrpc/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/yourusername/nearjsonrpc/actions)  
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
 `nearjsonrpc` brings the full power of the NEAR Protocol JSON-RPC API directly into R — designed by an R developer, for R developers, data scientists, and blockchain analysts.
@@ -93,7 +92,7 @@ Contributions are welcome! Please open issues or pull requests for any improveme
 
 ## License
 
-GPL-3 License: <https://cran.r-project.org/web/licenses/GPL-3>
+MIT License: <https://opensource.org/license/MIT>
 
 
 ## Contact
