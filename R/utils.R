@@ -1,92 +1,173 @@
-#' Internal helper and endpoint management for nearjsonrpc
+#' Manage NEAR RPC Endpoint and Perform JSON-RPC Calls
 #'
-#' near_set_endpoint sets the RPC endpoint used by package functions.
-#' near_rpc is an internal requester used by exported functions to call the NEAR JSON-RPC.
+#' @description
+#' These functions form the backbone of **nearjsonrpc**:
+#' - `near_set_endpoint()` lets users switch between mainnet, testnet, or custom nodes.
+#' - `near_rpc()` is the **internal** low-level JSON-RPC engine used by all exported functions.
+#' - `%||%` is a lightweight null-coalescing operator (dependency-free).
 #'
-#' @param endpoint Character scalar. A full URL to a NEAR JSON-RPC endpoint, e.g. "https://rpc.testnet.near.org".
-#' @return For near_set_endpoint: invisibly returns the endpoint (invisibly). For near_rpc: a parsed list response from the node.
+#' @name utils
+#' @keywords internal
+NULL
+
+# Global option name (kept internal for consistency)
+.NEAR_ENDPOINT_OPTION <- "nearjsonrpc.endpoint"
+
+# Default public endpoints
+.NEAR_ENDPOINTS <- list(
+  mainnet = "https://rpc.mainnet.near.org",
+  testnet = "https://rpc.testnet.near.org",
+  betanet = "https://rpc.betanet.near.org"
+)
+
+#' Set or View the Active NEAR RPC Endpoint
+#'
+#' @description
+#' Sets the JSON-RPC endpoint used by all functions in the package.
+#' You can use the official public endpoints (`mainnet`, `testnet`) or any custom node.
+#'
+#' @param endpoint A character string with the full URL, or one of the shortcuts:
+#'   `"mainnet"`, `"testnet"`, `"betanet"`.
+#' @param .reset Logical. If `TRUE`, resets to the default (testnet). Mainly for testing.
+#'
+#' @return Invisibly returns the active endpoint.
+#'
 #' @export
+#'
 #' @examples
+#' # Use testnet (default)
+#' near_set_endpoint("testnet")
+#'
+#' # Switch to mainnet
+#' near_set_endpoint("mainnet")
+#'
+#' # Custom archival node
+#' near_set_endpoint("https://archival-rpc.mainnet.near.org")
+#'
+#' # View current endpoint
+#' getOption("nearjsonrpc.endpoint")
+#'
 #' \dontrun{
+#' # In a script or Shiny app
 #' near_set_endpoint("https://rpc.testnet.near.org")
+#' near_query_account("bowen.testnet")
 #' }
-near_set_endpoint <- function(endpoint = "https://rpc.testnet.near.org") {
-  stopifnot(is.character(endpoint), length(endpoint) == 1)
-  options(nearjsonrpc.endpoint = endpoint)
-  cli::cli_alert_info("NEAR RPC endpoint set to {endpoint}")
+near_set_endpoint <- function(endpoint = "testnet", .reset = FALSE) {
+  if (.reset) {
+    endpoint <- .NEAR_ENDPOINTS$testnet
+  } else if (identical(endpoint, "mainnet")) {
+    endpoint <- .NEAR_ENDPOINTS$mainnet
+  } else if (identical(endpoint, "testnet")) {
+    endpoint <- .NEAR_ENDPOINTS$testnet
+  } else if (identical(endpoint, "betanet")) {
+    endpoint <- .NEAR_ENDPOINTS$betanet
+  }
+
+  if (!is.character(endpoint) || length(endpoint) != 1 || !nzchar(endpoint)) {
+    rlang::abort("`endpoint` must be a single non-empty character string or one of: mainnet, testnet, betanet")
+  }
+
+  # Basic URL validation
+  if (!grepl("^https?://", endpoint)) {
+    rlang::abort("Endpoint must start with http:// or https://")
+  }
+
+  options(.NEAR_ENDPOINT_OPTION := endpoint)
+  cli::cli_alert_success("NEAR RPC endpoint → {.url {endpoint}}")
   invisible(endpoint)
 }
 
-# Provide a lightweight null-coalescing operator to keep code dependency-free in namespace
+#' Null-Coalescing Operator
+#'
+#' @description
+#' Returns its left-hand side if not `NULL`; otherwise returns the right-hand side.
+#' Used internally to simplify default argument handling without adding dependencies.
+#'
+#' @param x,y Objects
+#' @return `x` if not `NULL`, otherwise `y`
+#' @export
+#' @examples
+#' NULL %||% "default"
+#' "value" %||% "fallback"
 `%||%` <- function(x, y) {
   if (!is.null(x)) x else y
 }
 
-#' Internal: perform a json-rpc call to NEAR
+#' Perform a Raw JSON-RPC Call to a NEAR Node
 #'
-#' This is an internal helper and not exported. It uses httr2 to POST the request
-#' body as JSON matching the NEAR RPC specs used by this package (a JSON object
-#' with `method` and `params`). It returns a parsed list. HTTP errors raise via rlang::abort.
+#' @description
+#' **Internal** function that powers every exported API call.
+#' Sends a properly formatted JSON-RPC 2.0 request and handles errors gracefully.
 #'
-#' @param method Character scalar with the RPC method name (e.g. "query").
-#' @param params A list of parameters for the RPC method.
-#' @param timeout Seconds to wait for response (numeric scalar). Defaults to 30.
-#' @return A list parsed from JSON response. If the node returns an `error` field,
-#'   an rlang::abort error is raised with the node message.
+#' @param method Character scalar. The RPC method name (e.g., `"query"`, `"block"`, `"status"`).
+#' @param params Named list of parameters (can be empty).
+#' @param timeout Maximum seconds to wait for a response (default: 30).
+#'
+#' @return A parsed R object (usually a list) from the JSON response.
+#'
+#' @section Error handling:
+#'   - HTTP errors → `rlang::abort()` with status code
+#'   - JSON-RPC errors → informative message from the node
+#'   - Network timeouts → clear error
+#'
 #' @keywords internal
-near_rpc <- function(method, params = list(), timeout = 30) {
-  stopifnot(is.character(method), length(method) == 1)
-  if (!is.list(params)) rlang::abort("params must be a list")
+#' @noRd
+near_rpc <- function(method,
+                     params = list(),
+                     timeout = getOption("nearjsonrpc.timeout", 30)) {
 
-  # Allow tests to inject a fake RPC implementation via options
-  rpc_fn <- getOption("nearjsonrpc.rpc_fn")
-  if (!is.null(rpc_fn) && is.function(rpc_fn)) {
-    parsed <- rpc_fn(method = method, params = params, timeout = timeout)
-    if (is.character(parsed)) parsed <- jsonlite::fromJSON(parsed, simplifyVector = FALSE)
-    if (is.list(parsed) && !is.null(parsed$error)) {
-      err <- parsed$error
-      message <- if (!is.null(err$message)) err$message else jsonlite::toJSON(err)
-      rlang::abort(paste0("NEAR RPC error: ", message))
-    }
-    return(parsed)
+  # Input validation
+  if (!is.character(method) || length(method) != 1 || !nzchar(method)) {
+    rlang::abort("`method` must be a non-empty character scalar")
+  }
+  if (!is.list(params)) {
+    rlang::abort("`params` must be a list")
+  }
+  if (!is.numeric(timeout) || timeout <= 0) {
+    rlang::abort("`timeout` must be a positive number")
   }
 
-  endpoint <- getOption("nearjsonrpc.endpoint", "https://rpc.testnet.near.org")
-  if (!nzchar(endpoint)) rlang::abort("NEAR endpoint is not set. Use near_set_endpoint().")
+  # Allow full test mocking via option (used by testthat + httptest2)
+  mock_fn <- getOption("nearjsonrpc.mock_rpc")
+  if (is.function(mock_fn)) {
+    return(mock_fn(method = method, params = params, timeout = timeout))
+  }
 
-  body <- list(method = method, params = params)
+  endpoint <- getOption(.NEAR_ENDPOINT_OPTION, .NEAR_ENDPOINTS$testnet)
+
+  body <- list(
+    jsonrpc = "2.0",
+    id      = "nearjsonrpc-r-package",
+    method  = method,
+    params  = params
+  )
 
   req <- httr2::request(endpoint) %>%
-    httr2::req_body_json(body) %>%
     httr2::req_headers(
-      `User-Agent` = "nearjsonrpc R package",
-      `Content-Type` = "application/json"
+      `Content-Type`  = "application/json",
+      `User-Agent`    = paste0("nearjsonrpc/", utils::packageVersion("nearjsonrpc"))
     ) %>%
-    httr2::req_timeout(timeout)
+    httr2::req_body_json(body) %>%
+    httr2::req_timeout(timeout) %>%
+    httr2::req_retry(max_tries = 3, backoff = ~ 2 * .x)
 
-  resp <- tryCatch(
-    httr2::req_perform(req),
-    error = function(e) rlang::abort(paste("HTTP request failed:", e$message))
-  )
+  resp <- req %>%
+    httr2::req_perform() %>%
+    httr2::resp_check_status()
 
-  # stop for HTTP status codes
-  if (httr2::resp_status(resp) >= 400) {
-    msg <- tryCatch(httr2::resp_body_string(resp), error = function(e) "")
-    rlang::abort(paste0("NEAR RPC HTTP error ", httr2::resp_status(resp), ": ", msg))
-  }
+  parsed <- resp %>%
+    httr2::resp_body_json(simplifyVector = FALSE)
 
-  text <- httr2::resp_body_string(resp)
-  parsed <- tryCatch(
-    jsonlite::fromJSON(text, simplifyVector = FALSE),
-    error = function(e) rlang::abort("Failed to parse JSON from RPC response: ", e$message)
-  )
-
-  if (is.list(parsed) && !is.null(parsed$error)) {
-    # NEAR returns an `error` object in some cases
+  # Handle JSON-RPC error field (NEAR nodes return {error: {...}})
+  if (!is.null(parsed$error)) {
     err <- parsed$error
-    message <- if (!is.null(err$message)) err$message else jsonlite::toJSON(err)
-    rlang::abort(paste0("NEAR RPC error: ", message))
+    msg <- err$message %||% jsonlite::toJSON(err, auto_unbox = TRUE)
+    rlang::abort(c(
+      "NEAR JSON-RPC error",
+      x = msg,
+      i = paste("Method:", method)
+    ))
   }
 
-  return(parsed)
+  parsed$result
 }
