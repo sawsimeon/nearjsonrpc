@@ -71,4 +71,4 @@ block %>% mutate(header_hash = header[[1]]$hash)
 
 # Contributing
 
-See the repository on GitHub. Please open issues or PRs for improvements.
+Please see the repository on GitHub. Open issues or PRs for improvements.
