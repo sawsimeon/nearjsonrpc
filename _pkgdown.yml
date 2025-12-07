@@ -3,10 +3,9 @@ url: https://sawsimeon.github.io/nearjsonrpc
 template:
   package: pkgdown
   bootstrap: 5
-  bootswatch: darkly          # beautiful dark theme, no SCSS needed
-  theme:
-    primary: "#00F6D2"        # NEAR teal accent
-    spacer: "2rem"
+  bootswatch: darkly
+  theme-colors:
+    primary: "#00F6D2"   # NEAR teal
 
 navbar:
   title: "nearjsonrpc"
@@ -68,12 +67,3 @@ articles:
 
 development:
   mode: auto
-
-home:
-  title: "nearjsonrpc"
-  description: "A fast, tidy R client for the NEAR Protocol JSON-RPC API"
-  links:
-    - text: NEAR Protocol Documentation
-      href: https://docs.near.org/api/rpc/introduction
-    - text: Report a Bug
-      href: https://github.com/sawsimeon/nearjsonrpc/issues
