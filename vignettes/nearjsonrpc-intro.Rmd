@@ -1,0 +1,74 @@
+---
+title: "nearjsonrpc: Introduction"
+author: "Simon Saws"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{nearjsonrpc: Introduction}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+# Introduction
+
+nearjsonrpc provides small, focused wrappers around the NEAR Protocol JSON-RPC API. The goal is to
+make it easy to query account state, blocks, network status, transactions and call view functions
+from reproducible R scripts.
+
+## Setup
+
+Install dependencies (suggested):
+
+```{r, eval = FALSE}
+# install.packages(c('httr2','jsonlite','tibble','dplyr','rlang','cli','pkgdown','testthat'))
+# devtools::install()
+```
+
+Set the endpoint (testnet is default):
+
+```{r}
+near_set_endpoint('https://rpc.testnet.near.org')
+```
+
+# Examples: querying accounts
+
+```{r, eval = FALSE}
+near_query_account('example.testnet')
+near_get_access_keys('example.testnet')
+```
+
+# Blocks and network
+
+```{r, eval = FALSE}
+near_get_block(finality = 'final')
+near_network_status()
+```
+
+# View function calls
+
+```{r, eval = FALSE}
+near_call_view_function('contract.testnet', 'get_value')
+```
+
+# Broadcasting transactions (example only)
+
+```{r, eval = FALSE}
+# signed_tx_b64 would come from an offline signing process
+near_broadcast_tx(signed_tx_b64, wait_until = 'FINAL')
+```
+
+# Data analysis example
+
+```{r, eval = FALSE}
+library(dplyr)
+block <- near_get_block()
+block %>% mutate(header_hash = header[[1]]$hash)
+```
+
+# Error handling and best practices
+
+- Avoid embedding real keys or signed transactions in vignettes or tests.
+- Use the `nearjsonrpc.rpc_fn` option to mock RPC responses during testing.
+
+# Contributing
+
+See the repository on GitHub. Please open issues or PRs for improvements.

@@ -1,0 +1,38 @@
+template:
+  params:
+    bootswatch: flatly
+
+navbar:
+  structure:
+    left:
+      - text: Reference
+        href: reference/index.html
+      - text: Articles
+        href: articles/index.html
+      - text: Get started
+        href: articles/nearjsonrpc-intro.html
+    right:
+      - text: GitHub
+        href: https://github.com/sawsimeon/nearjsonrpc
+
+reference:
+  - title: Query
+    contents:
+      - near_query_account
+      - near_call_view_function
+      - near_get_access_keys
+  - title: Network
+    contents:
+      - near_get_block
+      - near_network_status
+      - near_get_protocol_config
+  - title: Transactions
+    contents:
+      - near_broadcast_tx
+      - near_get_transaction_status
+
+badge:
+  - type: github
+    repo: sawsimeon/nearjsonrpc
+  - type: cran
+    repo: nearjsonrpc

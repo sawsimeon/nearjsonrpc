@@ -1,0 +1,29 @@
+Package: nearjsonrpc
+Title: A Lightweight NEAR Protocol JSON-RPC Client
+Version: 0.1.0
+Authors@R: person("Simon", "Saws", email = "sawsimeon@example.com", role = c("aut", "cre"))
+Description: Client utilities for interacting with the NEAR Protocol JSON-RPC API. Provides convenience wrappers
+  for common RPC methods (query, block, status, transactions, experimental protocol config) and returns tidy
+  tibbles where appropriate. Designed for programmatic access and analysis; does not perform wallet/key
+  management.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+Imports:
+    httr2,
+    jsonlite,
+    tibble,
+    dplyr,
+    rlang,
+    cli
+Suggests:
+    testthat (>= 3.0.0),
+    withr,
+    knitr,
+    rmarkdown,
+    pkgdown,
+    httptest2
+VignetteBuilder: knitr
+URL: https://github.com/sawsimeon/nearjsonrpc
+BugReports: https://github.com/sawsimeon/nearjsonrpc/issues
