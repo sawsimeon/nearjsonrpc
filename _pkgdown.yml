@@ -1,38 +1,88 @@
+url: https://sawsimeon.github.io/nearjsonrpc
+
 template:
   params:
     bootswatch: flatly
+    docsearch:
+      api_key: none
+      index_name: nearjsonrpc
 
 navbar:
-  structure:
-    left:
-      - text: Reference
-        href: reference/index.html
-      - text: Articles
-        href: articles/index.html
-      - text: Get started
-        href: articles/nearjsonrpc-intro.html
-    right:
-      - text: GitHub
-        href: https://github.com/sawsimeon/nearjsonrpc
+  title: "nearjsonrpc"
+  bg: dark
+  type: dark
+  left:
+    - text: "Get Started"
+      icon: fa-home
+      href: articles/nearjsonrpc-intro.html
+    - text: "Reference"
+      icon: fa-book
+      href: reference/index.html
+    - text: "Articles"
+      icon: fa-newspaper
+      href: articles/index.html
+    - text: "News"
+      icon: fa-rss
+      href: news/index.html
+
+  right:
+    - icon: fa-github fa-lg
+      href: https://github.com/sawsimeon/nearjsonrpc
+    - icon: fa-twitter fa-lg
+      href: https://twitter.com/sawsimeon  # optional: change or remove
+    - text: "NEAR"
+      icon: fab fa-near
+      href: https://near.org
+
+authors:
+  Your Name:
+    href: "https://github.com/sawsimeon"
 
 reference:
-  - title: Query
+  - title: "Core Functions"
+    desc: Main interaction with the NEAR JSON-RPC API
+  - subtitle: "Account & Contract"
     contents:
       - near_query_account
-      - near_call_view_function
       - near_get_access_keys
-  - title: Network
+      - near_call_view_function
+  - subtitle: "Blocks & Network"
     contents:
       - near_get_block
       - near_network_status
       - near_get_protocol_config
-  - title: Transactions
+  - subtitle: "Transactions"
     contents:
       - near_broadcast_tx
       - near_get_transaction_status
 
-badge:
-  - type: github
-    repo: sawsimeon/nearjsonrpc
-  - type: cran
-    repo: nearjsonrpc
+  - title: "Configuration & Utilities"
+    desc: Package setup and helpers
+    contents:
+      - near_set_endpoint
+      - near_rpc
+
+articles:
+  - title: "Guides & Tutorials"
+    navbar: "Guides"
+    contents:
+      - nearjsonrpc-intro
+
+footer:
+  structure:
+    left: [developed_by, built_with]
+    right: [license, github]
+
+development:
+  mode: auto
+  version_label: default
+
+home:
+  links:
+    - text: NEAR Protocol Documentation
+      href: https://docs.near.org/api/rpc/introduction
+    - text: Report a Bug
+      href: https://github.com/sawsimeon/nearjsonrpc/issues
+    - text: "NEAR"
+      href: https://near.org
+      icon: https://near.org/wp-content/themes/near-21/assets/img/near-logo.svg
