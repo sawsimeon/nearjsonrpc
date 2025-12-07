@@ -77,18 +77,11 @@ near_set_endpoint <- function(endpoint = "testnet", .reset = FALSE) {
   invisible(endpoint)
 }
 
-#' Null-Coalescing Operator
-#'
-#' @description
-#' Returns its left-hand side if not `NULL`; otherwise returns the right-hand side.
-#' Used internally to simplify default argument handling without adding dependencies.
+#' Null-coalescing operator
 #'
 #' @param x,y Objects
 #' @return `x` if not `NULL`, otherwise `y`
-#' @export
-#' @examples
-#' NULL %||% "default"
-#' "value" %||% "fallback"
+#' @keywords internal
 `%||%` <- function(x, y) {
   if (!is.null(x)) x else y
 }
@@ -111,7 +104,6 @@ near_set_endpoint <- function(endpoint = "testnet", .reset = FALSE) {
 #'   - Network timeouts → clear error
 #'
 #' @keywords internal
-#' @noRd
 near_rpc <- function(method,
                      params = list(),
                      timeout = getOption("nearjsonrpc.timeout", 30)) {
