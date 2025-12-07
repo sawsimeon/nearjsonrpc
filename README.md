@@ -14,7 +14,7 @@
 - Support for mainnet, testnet, and custom RPC endpoints
 - Built-in retry logic and clear error messages
 - Comprehensive documentation + vignettes
-- 100% open-source and CRAN-ready
+- 100% open-source
 
 ### Currently implemented functions
 
