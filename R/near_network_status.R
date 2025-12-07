@@ -1,27 +1,30 @@
-#' Retrieve NEAR network status
+#' Get Current Network Status and Node Info
 #'
-#' Calls the `status` RPC method and returns a tibble with chain_id, sync_info, validators, and version.
 #'
-#' @return A tibble with chain_id, sync_info (list), validators (list), version (list)
+#' @return A tibble with chain ID, sync status, validators, version, etc.
+#'
+#' @export
+#'
 #' @examples
 #' \dontrun{
-#' near_set_endpoint("https://rpc.testnet.near.org")
 #' near_network_status()
+#' near_network_status()$validators[[1]]
 #' }
-#' @seealso
-#'  URL{https://docs.near.org/api/rpc/nodes#status}
-#' @export
+#'
+#' @seealso \url{https://docs.near.org/api/rpc/network#network-status}
+#'
 near_network_status <- function() {
   resp <- near_rpc("status", params = list())
-  res <- if (!is.null(resp$result)) resp$result else resp
-  if (!is.list(res)) rlang::abort("Unexpected response format from RPC")
 
-  t <- tibble::tibble(
-    chain_id = as.character(res$chain_id %||% NA_character_),
-    sync_info = list(res$sync_info %||% list()),
-    validators = list(res$validators %||% list()),
-    version = list(res$version %||% list()),
-    raw = list(res)
+  res <- resp$result %||% resp
+  tibble::tibble(
+    chain_id        = res$chain_id %||% NA_character_,
+    latest_block_height = res$sync_info$latest_block_height %||% NA_integer_,
+    latest_block_hash   = res$sync_info$latest_block_hash %||% NA_character_,
+    syncing         = res$sync_info$syncing %||% NA,
+    version         = res$version$version %||% NA_character_,
+    protocol_version = res$protocol_version %||% NA_integer_,
+    validators      = list(res$validators %||% list()),
+    raw_response    = list(resp)
   )
-  return(t)
 }
