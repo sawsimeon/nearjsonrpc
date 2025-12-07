@@ -1,6 +1,6 @@
 ---
 title: "nearjsonrpc: Introduction"
-author: "Simon Saws"
+author: "Saw Simeon"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{nearjsonrpc: Introduction}
@@ -21,6 +21,7 @@ Install dependencies (suggested):
 ```{r, eval = FALSE}
 # install.packages(c('httr2','jsonlite','tibble','dplyr','rlang','cli','pkgdown','testthat'))
 # devtools::install()
+library(nearjsonrpc)
 ```
 
 Set the endpoint (testnet is default):
