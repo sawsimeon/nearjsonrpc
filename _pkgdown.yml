@@ -29,13 +29,13 @@ navbar:
     - icon: fa-github fa-lg
       href: https://github.com/sawsimeon/nearjsonrpc
     - icon: fa-twitter fa-lg
-      href: https://twitter.com/sawsimeon  # optional: change or remove
+      href: https://twitter.com/sawsimeon
     - text: "NEAR"
-      icon: fab fa-near
+      icon: https://near.org/wp-content/themes/near-21/assets/img/near-logo.svg
       href: https://near.org
 
 authors:
-  Your Name:
+  Your Name: Saw Simeon
     href: "https://github.com/sawsimeon"
 
 reference:
@@ -83,6 +83,3 @@ home:
       href: https://docs.near.org/api/rpc/introduction
     - text: Report a Bug
       href: https://github.com/sawsimeon/nearjsonrpc/issues
-    - text: "NEAR"
-      href: https://near.org
-      icon: https://near.org/wp-content/themes/near-21/assets/img/near-logo.svg
