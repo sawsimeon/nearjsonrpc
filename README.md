@@ -28,6 +28,7 @@
 | `near_call_view_function()`      | Call read-only contract functions                 |
 | `near_get_access_keys()`         | List access keys for an account                   |
 | `near_get_protocol_config()`     | Current protocol configuration and version        |
+| `near_set_endpoint()`             | Set the Active NEAR RPC Endpoint                 |
 
 More methods coming soon!
 
