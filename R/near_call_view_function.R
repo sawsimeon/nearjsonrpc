@@ -57,7 +57,7 @@ near_call_view_function <- function(
     finality = c("final", "optimistic"),
     block_id = NULL
 ) {
-  # ── Input validation ─────────────────────────────────────────────────────
+  #  Input validation
   if (missing(account_id) || !is.character(account_id) || length(account_id) != 1 || !nzchar(account_id)) {
     rlang::abort("`account_id` must be a non-empty character string")
   }
@@ -76,11 +76,11 @@ near_call_view_function <- function(
 
   finality <- match.arg(finality)
 
-  # ── Encode arguments ─────────────────────────────────────────────────────
+  #  Encode arguments
   args_json <- jsonlite::toJSON(args, auto_unbox = TRUE)
   args_b64  <- jsonlite::base64_enc(charToRaw(args_json))
 
-  # ── Build RPC parameters ─────────────────────────────────────────────────
+  #  Build RPC parameters
   params <- list(
     request_type = "call_function",
     account_id   = account_id,
