@@ -1,12 +1,11 @@
 # nearjsonrpc <img src="man/figures/logo.png" align="right" width="140"/>
 
 **An R client for the NEAR Protocol JSON-RPC API**  
-[![CRAN status](https://www.r-pkg.org/badges/version/nearjsonrpc)](https://CRAN.R-project.org/package=nearjsonrpc)  
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
-`nearjsonrpc` brings the full power of the NEAR Protocol JSON-RPC API directly into R — designed by an R developer, for R developers, data scientists, and blockchain analysts.
+`nearjsonrpc` brings the full power of the NEAR Protocol JSON-RPC API directly into R, designed by an R developer, for R developers, data scientists, and blockchain analysts.
 
-Built on the same philosophy as the popular `igfetchr` package (IG Trading API wrapper), `nearjsonrpc` provides clean, type-safe, well-documented functions that return tidy data frames (`tibbles`) by default, making it seamless to integrate NEAR blockchain data with `dplyr`, `ggplot2`, `shiny`, and the entire tidyverse.
+`nearjsonrpc` provides clean, type-safe, well-documented functions that return tidy data frames (`tibbles`) by default, making it seamless to integrate NEAR blockchain data with `dplyr`, `ggplot2`, `shiny`, and the entire tidyverse.
 
 ## Features
 
