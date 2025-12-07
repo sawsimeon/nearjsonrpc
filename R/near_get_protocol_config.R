@@ -1,32 +1,25 @@
-#' Get NEAR protocol config (experimental)
+#' Get Current Protocol Configuration
 #'
-#' Calls `EXPERIMENTAL_protocol_config` to fetch protocol configuration.
+#' @param finality `"final"` (default) or `"optimistic"`.
+#' @param block_id Optional block specifier.
 #'
-#' @param finality Character scalar. One of "final" or "optimistic". Defaults to "final".
-#' @param block_id Character or integer. Optional block id.
-#' @param epoch_id Character scalar. Optional epoch id.
-#' @return A tibble with config in a list-column `config` and raw.
+#' @return Protocol parameters (fees, gas, runtime config, etc.).
+#'
+#' @export
+#'
 #' @examples
 #' \dontrun{
-#' near_set_endpoint("https://rpc.testnet.near.org")
-#' near_get_protocol_config(finality = "final")
-#' near_get_protocol_config(epoch_id = "abcd1234")
+#' near_get_protocol_config()
+#' near_get_protocol_config(block_id = 100000000)
 #' }
-#' @seealso
-#'  URL{https://docs.near.org/api/rpc/experimental}
-#' @export
-near_get_protocol_config <- function(finality = "final", block_id = NULL, epoch_id = NULL) {
-  # only one of finality/block_id/epoch_id
-  specifiers <- sum(!is.null(finality), !is.null(block_id), !is.null(epoch_id))
-  if (specifiers > 1) rlang::abort("Specify only one of finality, block_id, or epoch_id")
+#'
+#' @seealso \url{https://docs.near.org/api/rpc/protocol#protocol-config}
+#'
+near_get_protocol_config <- function(finality = "final", block_id = NULL) {
+  {
+    params <- list()
+    if (!is.null(block_id)) params$block_id <- block_id else params$finality <- finality
 
-  params <- list()
-  if (!is.null(block_id)) params$block_id <- block_id else if (!is.null(epoch_id)) params$epoch_id <- epoch_id else params$finality <- finality
-
-  resp <- near_rpc("EXPERIMENTAL_protocol_config", params = params)
-  res <- if (!is.null(resp$result)) resp$result else resp
-  if (!is.list(res)) rlang::abort("Unexpected response format from RPC")
-
-  t <- tibble::tibble(config = list(res), raw = list(res))
-  return(t)
-}
+    resp <- near_rpc("EXPERIMENTAL_protocol_config", params)
+    tibble::tibble(raw_config = list(resp$result %||% resp))
+  }
