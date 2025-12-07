@@ -1,0 +1,21 @@
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>https://sawsimeon.github.io/nearjsonrpc/404.html</loc></url>
+<url><loc>https://sawsimeon.github.io/nearjsonrpc/articles/index.html</loc></url>
+<url><loc>https://sawsimeon.github.io/nearjsonrpc/articles/nearjsonrpc-intro.html</loc></url>
+<url><loc>https://sawsimeon.github.io/nearjsonrpc/authors.html</loc></url>
+<url><loc>https://sawsimeon.github.io/nearjsonrpc/index.html</loc></url>
+<url><loc>https://sawsimeon.github.io/nearjsonrpc/reference/grapes-or-or-grapes.html</loc></url>
+<url><loc>https://sawsimeon.github.io/nearjsonrpc/reference/index.html</loc></url>
+<url><loc>https://sawsimeon.github.io/nearjsonrpc/reference/near_broadcast_tx.html</loc></url>
+<url><loc>https://sawsimeon.github.io/nearjsonrpc/reference/near_call_view_function.html</loc></url>
+<url><loc>https://sawsimeon.github.io/nearjsonrpc/reference/near_get_access_keys.html</loc></url>
+<url><loc>https://sawsimeon.github.io/nearjsonrpc/reference/near_get_block.html</loc></url>
+<url><loc>https://sawsimeon.github.io/nearjsonrpc/reference/near_get_protocol_config.html</loc></url>
+<url><loc>https://sawsimeon.github.io/nearjsonrpc/reference/near_get_transaction_status.html</loc></url>
+<url><loc>https://sawsimeon.github.io/nearjsonrpc/reference/near_network_status.html</loc></url>
+<url><loc>https://sawsimeon.github.io/nearjsonrpc/reference/near_query_account.html</loc></url>
+<url><loc>https://sawsimeon.github.io/nearjsonrpc/reference/near_rpc.html</loc></url>
+<url><loc>https://sawsimeon.github.io/nearjsonrpc/reference/near_set_endpoint.html</loc></url>
+<url><loc>https://sawsimeon.github.io/nearjsonrpc/reference/utils.html</loc></url>
+</urlset>
+
