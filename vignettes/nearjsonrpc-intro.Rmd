@@ -30,8 +30,10 @@ library(nearjsonrpc)
 
 Set the endpoint (testnet is default):
 
-```{r}
+```{r, eval = FALSE}
+
 near_set_endpoint('testnet')
+
 ```
 
 # Examples: querying accounts
