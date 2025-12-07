@@ -1,11 +1,12 @@
 url: https://sawsimeon.github.io/nearjsonrpc
 
 template:
-  params:
-    bootswatch: flatly
-    docsearch:
-      api_key: none
-      index_name: nearjsonrpc
+  package: pkgdown
+  bootstrap: 5
+  bootswatch: darkly          # beautiful dark theme, no SCSS needed
+  theme:
+    primary: "#00F6D2"        # NEAR teal accent
+    spacer: "2rem"
 
 navbar:
   title: "nearjsonrpc"
@@ -24,23 +25,22 @@ navbar:
     - text: "News"
       icon: fa-rss
       href: news/index.html
-
   right:
     - icon: fa-github fa-lg
       href: https://github.com/sawsimeon/nearjsonrpc
     - icon: fa-twitter fa-lg
       href: https://twitter.com/sawsimeon
     - text: "NEAR"
-      icon: https://near.org/wp-content/themes/near-21/assets/img/near-logo.svg
       href: https://near.org
+      icon: https://near.org/wp-content/themes/near-21/assets/img/near-logo.svg
 
 authors:
-  Your Name: Saw Simeon
-    href: "https://github.com/sawsimeon"
+  Saw Simeon:
+    href: https://github.com/sawsimeon
 
 reference:
   - title: "Core Functions"
-    desc: Main interaction with the NEAR JSON-RPC API
+    desc: "Main interaction with the NEAR JSON-RPC API"
   - subtitle: "Account & Contract"
     contents:
       - near_query_account
@@ -55,12 +55,10 @@ reference:
     contents:
       - near_broadcast_tx
       - near_get_transaction_status
-
-  - title: "Configuration & Utilities"
-    desc: Package setup and helpers
+  - title: "Configuration"
+    desc: "Package setup"
     contents:
       - near_set_endpoint
-      - near_rpc
 
 articles:
   - title: "Guides & Tutorials"
@@ -68,16 +66,12 @@ articles:
     contents:
       - nearjsonrpc-intro
 
-footer:
-  structure:
-    left: [developed_by, built_with]
-    right: [license, github]
-
 development:
   mode: auto
-  version_label: default
 
 home:
+  title: "nearjsonrpc"
+  description: "A fast, tidy R client for the NEAR Protocol JSON-RPC API"
   links:
     - text: NEAR Protocol Documentation
       href: https://docs.near.org/api/rpc/introduction
