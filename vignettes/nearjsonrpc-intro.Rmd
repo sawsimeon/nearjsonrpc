@@ -8,6 +8,7 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
+
 # Introduction
 
 nearjsonrpc provides small, focused wrappers around the NEAR Protocol JSON-RPC API. The goal is to
@@ -16,59 +17,86 @@ from reproducible R scripts.
 
 ## Setup
 
-Install dependencies (suggested):
 
-```{r, eval = FALSE}
+```{r setup, include = FALSE}
 # install.packages(c('httr2','jsonlite','tibble','dplyr','rlang','cli','pkgdown','testthat'))
 # devtools::install()
+# From GitHub
+remotes::install_github("sawsimeon/nearjsonrpc")
 library(nearjsonrpc)
+# Or when on CRAN
+# install.packages("nearjsonrpc")
 ```
 
 Set the endpoint (testnet is default):
 
 ```{r}
-near_set_endpoint('https://rpc.testnet.near.org')
+near_set_endpoint('testnet')
 ```
 
 # Examples: querying accounts
 
 ```{r, eval = FALSE}
-near_query_account('example.testnet')
-near_get_access_keys('example.testnet')
+near_query_account("vitalik.near")
+near_get_access_keys("vitalik.near")
 ```
 
 # Blocks and network
 
 ```{r, eval = FALSE}
-near_get_block(finality = 'final')
+near_get_block("final")
 near_network_status()
+near_get_protocol_config()
 ```
 
 # View function calls
 
 ```{r, eval = FALSE}
-near_call_view_function('contract.testnet', 'get_value')
+# Get total supply of wrapped NEAR
+near_call_view_function("wrap.near", "ft_total_supply")
+
+# Get your balance
+near_call_view_function(
+  account_id = "wrap.near",
+  method_name = "ft_balance_of",
+  args = list(account_id = "vitalik.near")
+)
 ```
 
 # Broadcasting transactions (example only)
 
 ```{r, eval = FALSE}
-# signed_tx_b64 would come from an offline signing process
-near_broadcast_tx(signed_tx_b64, wait_until = 'FINAL')
+# signed_tx_b64 comes from near-cli or near-api-js
+near_broadcast_tx(signed_tx_b64, wait_until = "EXECUTED_OPTIMISTIC")
 ```
 
 # Data analysis example
 
 ```{r, eval = FALSE}
 library(dplyr)
-block <- near_get_block()
-block %>% mutate(header_hash = header[[1]]$hash)
+library(ggplot2)
+
+# Get recent validator stakes
+status <- near_network_status()
+validators <- status$validators[[1]]
+
+tibble(
+  account_id = sapply(validators, `[[`, "account_id"),
+  stake_yocto = sapply(validators, `[[`, "stake")
+) %>%
+  mutate(stake_near = as.numeric(stake_yocto) / 1e24) %>%
+  arrange(desc(stake_near)) %>%
+  slice_head(n = 10) %>%
+  ggplot(aes(reorder(account_id, stake_near), stake_near)) +
+  geom_col(fill = "#00F6D2") +
+  coord_flip() +
+  labs(title = "Top 10 NEAR Validators by Stake", x = "Validator", y = "Stake (NEAR)")
+
 ```
 
 # Error handling and best practices
 
 - Avoid embedding real keys or signed transactions in vignettes or tests.
-- Use the `nearjsonrpc.rpc_fn` option to mock RPC responses during testing.
 
 # Contributing
 
