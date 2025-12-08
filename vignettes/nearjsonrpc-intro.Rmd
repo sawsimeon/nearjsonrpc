@@ -30,69 +30,62 @@ library(nearjsonrpc)
 
 Set the endpoint (testnet is default):
 
-```{r, eval = FALSE}
+```{r endpoint, eval = TRUE}
 
-near_set_endpoint('testnet')
+near_set_endpoint('mainnet')
 
 ```
 
-# Examples: querying accounts
+# Examples
 
-```{r, eval = FALSE}
+## Query Acount Details and Balance
+
+```{r account, eval = TRUE}
 near_query_account("vitalik.near")
+```
+
+## List all access keys associated with a NEAR account
+
+```{r keys, eval = TRUE}
 near_get_access_keys("vitalik.near")
 ```
 
-# Blocks and network
+## Get Current Network Status and Node Info
 
-```{r, eval = FALSE}
-near_get_block("final")
-near_network_status()
-near_get_protocol_config()
+```{r network, eval = TRUE}
+status = near_network_status()
+str(status)
 ```
 
-# View function calls
+## Get NEAR Protocol Configuration
 
-```{r, eval = FALSE}
-# Get total supply of wrapped NEAR
-near_call_view_function("wrap.near", "ft_total_supply")
-
-# Get your balance
-near_call_view_function(
-  account_id = "wrap.near",
-  method_name = "ft_balance_of",
-  args = list(account_id = "vitalik.near")
-)
-```
-
-# Broadcasting transactions (example only)
-
-```{r, eval = FALSE}
-# signed_tx_b64 comes from near-cli or near-api-js
-near_broadcast_tx(signed_tx_b64, wait_until = "EXECUTED_OPTIMISTIC")
+```{r, eval = TRUE}
+protocol_config = near_get_protocol_config()
+str(protocol_config)
 ```
 
 # Data analysis example
 
-```{r, eval = FALSE}
-library(dplyr)
+```{r, eval = TRUE}
 library(ggplot2)
+library(dplyr)
+library(scales)
 
 # Get recent validator stakes
-status <- near_network_status()
-validators <- status$validators[[1]]
+vals <- near_get_validators()
 
-tibble(
-  account_id = sapply(validators, `[[`, "account_id"),
-  stake_yocto = sapply(validators, `[[`, "stake")
-) %>%
-  mutate(stake_near = as.numeric(stake_yocto) / 1e24) %>%
-  arrange(desc(stake_near)) %>%
+vals %>%
   slice_head(n = 10) %>%
-  ggplot(aes(reorder(account_id, stake_near), stake_near)) +
-  geom_col(fill = "#00F6D2") +
+  ggplot(aes(x = reorder(account_id, stake_near), y = stake_near)) +
+  geom_col(fill = "steelblue") +
   coord_flip() +
-  labs(title = "Top 10 NEAR Validators by Stake", x = "Validator", y = "Stake (NEAR)")
+  scale_y_continuous(labels = comma) +   # makes stake readable with commas
+  labs(
+    title = "Top 10 Validators by Stake",
+    x = "Validator",
+    y = "Stake (NEAR)"
+  ) +
+  theme_minimal()
 
 ```
 
