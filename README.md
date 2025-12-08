@@ -5,7 +5,7 @@
 
 `nearjsonrpc` brings the full power of the NEAR Protocol JSON-RPC API directly into R, designed by an R developer, for R developers, data scientists, and blockchain analysts.
 
-`nearjsonrpc` provides clean, type-safe, well-documented functions that return tidy data frames (`tibbles`) by default, making it seamless to integrate NEAR blockchain data with `openssl`, `cyphr`, `sodium`, `digest`, `jsonlite`, `httr2`, `dplyr`,  and `shiny` R packages.
+`nearjsonrpc` provides clean, type-safe, well-documented functions that return tidy data frames (`tibbles`) by default, making it seamless to integrate NEAR blockchain data with `openssl`, `cyphr`, `sodium`, `digest`, `jsonlite`, `httr2`, `dplyr`, `tidyr`, `purrr`  and `shiny` R packages.
 
 ## Features
 
@@ -48,6 +48,8 @@ remotes::install_github("sawsimeon/nearjsonrpc")
 
 ```r
 library(nearjsonrpc)
+library(tidyr)
+library(purrr)
 
 # Use mainnet (or "testnet", "betanet")
 near_set_endpoint("mainnet")
