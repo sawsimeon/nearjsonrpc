@@ -29,8 +29,9 @@
 | `near_get_access_keys()`         | List access keys for an account                   |
 | `near_get_protocol_config()`     | Current protocol configuration and version        |
 | `near_set_endpoint()`             | Set the Active NEAR RPC Endpoint                 |
+| `near_get_validators()`           | Get Epoch Validators with Stake Amounts         |
 
-More methods coming soon!
+More functions coming soon!
 
 ## Installation
 
