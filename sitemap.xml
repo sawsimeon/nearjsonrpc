@@ -12,6 +12,7 @@
 <url><loc>https://sawsimeon.github.io/nearjsonrpc/reference/near_get_block.html</loc></url>
 <url><loc>https://sawsimeon.github.io/nearjsonrpc/reference/near_get_protocol_config.html</loc></url>
 <url><loc>https://sawsimeon.github.io/nearjsonrpc/reference/near_get_transaction_status.html</loc></url>
+<url><loc>https://sawsimeon.github.io/nearjsonrpc/reference/near_get_validators.html</loc></url>
 <url><loc>https://sawsimeon.github.io/nearjsonrpc/reference/near_network_status.html</loc></url>
 <url><loc>https://sawsimeon.github.io/nearjsonrpc/reference/near_query_account.html</loc></url>
 <url><loc>https://sawsimeon.github.io/nearjsonrpc/reference/near_rpc.html</loc></url>
