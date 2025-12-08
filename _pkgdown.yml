@@ -47,6 +47,7 @@ reference:
       - near_get_block
       - near_network_status
       - near_get_protocol_config
+      - near_get_validators
   - subtitle: "Transactions"
     contents:
       - near_broadcast_tx
