@@ -20,62 +20,6 @@ NULL
   betanet = "https://rpc.betanet.near.org"
 )
 
-#' Set or View the Active NEAR RPC Endpoint
-#'
-#' @description
-#' Sets the JSON-RPC endpoint used by all functions in the package.
-#' You can use the official public endpoints (`mainnet`, `testnet`) or any custom node.
-#'
-#' @param endpoint A character string with the full URL, or one of the shortcuts:
-#'   `"mainnet"`, `"testnet"`, `"betanet"`.
-#' @param .reset Logical. If `TRUE`, resets to the default (testnet). Mainly for testing.
-#'
-#' @return Invisibly returns the active endpoint.
-#'
-#' @export
-#'
-#' @examples
-#' # Use testnet (default)
-#' near_set_endpoint("testnet")
-#'
-#' # Switch to mainnet
-#' near_set_endpoint("mainnet")
-#'
-#' # Custom archival node
-#' near_set_endpoint("https://archival-rpc.mainnet.near.org")
-#'
-#' # View current endpoint
-#' getOption("nearjsonrpc.endpoint")
-#'
-#' \dontrun{
-#' # In a script or Shiny app
-#' near_set_endpoint("https://rpc.testnet.near.org")
-#' near_query_account("bowen.testnet")
-#' }
-near_set_endpoint <- function(endpoint = "testnet", .reset = FALSE) {
-  if (.reset) {
-    endpoint <- .NEAR_ENDPOINTS$testnet
-  } else if (identical(endpoint, "mainnet")) {
-    endpoint <- .NEAR_ENDPOINTS$mainnet
-  } else if (identical(endpoint, "testnet")) {
-    endpoint <- .NEAR_ENDPOINTS$testnet
-  } else if (identical(endpoint, "betanet")) {
-    endpoint <- .NEAR_ENDPOINTS$betanet
-  }
-
-  if (!is.character(endpoint) || length(endpoint) != 1 || !nzchar(endpoint)) {
-    rlang::abort("`endpoint` must be a single non-empty character string or one of: mainnet, testnet, betanet")
-  }
-
-  # Basic URL validation
-  if (!grepl("^https?://", endpoint)) {
-    rlang::abort("Endpoint must start with http:// or https://")
-  }
-
-  options(.NEAR_ENDPOINT_OPTION := endpoint)
-  cli::cli_alert_success("NEAR RPC endpoint → {.url {endpoint}}")
-  invisible(endpoint)
-}
 
 #' Null-coalescing operator
 #'
