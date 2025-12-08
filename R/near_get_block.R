@@ -1,7 +1,7 @@
 #' Get Block Information by Height or Hash
 #'
 #' @param block_id Block height (integer), hash (character), or `"final"` (latest finalized).
-#' @return A tibble with block header and chunk info.
+#' @return A tibble with block header and chunk infomation.
 #'
 #' @export
 #'
