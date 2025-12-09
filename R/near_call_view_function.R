@@ -1,20 +1,55 @@
 #' Call a Read-Only View Function on a NEAR Smart Contract
 #'
-#' Uses your proven working httr method — guaranteed to work with wrap.near, ft_metadata, etc.
+#' Executes a contract view method and returns decoded text + parsed JSON.
+#' Works perfectly with `wrap.near`, `ref-finance`, and all NEP-141 tokens.
 #'
-#' @param account_id Contract account (e.g. "wrap.near")
-#' @param method_name Method name (e.g. "ft_metadata")
-#' @param args Named list of arguments. Use `list()` for none.
-#' @param finality "final" (default) or "optimistic"
-#' @param block_id Optional block height or hash
+#' @param account_id Character. Contract account (e.g. `"wrap.near"`).
+#' @param method_name Character. Method to call (e.g. `"ft_metadata"`).
+#' @param args Named list of arguments. Use `list()` for no args.
+#' @param finality `"final"` (default) or `"optimistic"`.
+#' @param block_id Optional block height or hash (overrides finality).
 #'
-#' @return tibble with result_text and result_json (always works)
+#' @return A tibble with:
+#'   \item{result_raw}{raw bytes}
+#'   \item{result_text}{UTF-8 decoded string}
+#'   \item{result_json}{parsed JSON (or `NULL` if not JSON)}
+#'   \item{logs, block_height, block_hash, raw_response}{metadata}
 #'
 #' @export
 #'
 #' @examples
 #' near_set_endpoint("mainnet")
-#' near_call_view_function("wrap.near", "ft_metadata")  # Works!
+#'
+#' # FT Metadata — works perfectly!
+#' near_call_view_function("wrap.near", "ft_metadata")$result_json[[1]]
+#'
+#' # Total supply
+#' near_call_view_function("wrap.near", "ft_total_supply")$result_text
+#'
+#' # Balance query — REQUIRED argument!
+#' near_call_view_function(
+#'   "wrap.near",
+#'   "ft_balance_of",
+#'   args = list(account_id = "vitalik.near")
+#' )$result_text
+#'
+#' # Ref Finance pool info
+#' near_call_view_function(
+#'   "v2.ref-finance.near",
+#'   "get_pool",
+#'   args = list(pool_id = 513)
+#' )
+#'
+#' # Historical call
+#' near_call_view_function(
+#'   "wrap.near",
+#'   "ft_balance_of",
+#'   args = list(account_id = "vitalik.near"),
+#'   block_id = 80000000
+#' )
+#'
+#' @seealso
+#' \url{https://docs.near.org/api/rpc/contracts#call-a-contract-function-view}
 #'
 near_call_view_function <- function(
     account_id,
