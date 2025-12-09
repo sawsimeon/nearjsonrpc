@@ -54,17 +54,39 @@ near_get_access_keys("vitalik.near")
 
 ```{r network, eval = TRUE}
 status = near_network_status()
-str(status)
+status
 ```
 
 ## Get NEAR Protocol Configuration
 
-```{r, eval = TRUE}
+```{r protocol, eval = TRUE}
 protocol_config = near_get_protocol_config()
-str(protocol_config)
+protocol_config
 ```
 
-# Data analysis example
+## View NEAR Smart Contract
+
+FT Metadata
+
+```{r ft_metadata, eval = TRUE}
+near_call_view_function("wrap.near", "ft_metadata")
+```
+
+Total supply
+
+```{r ft_total_supply, eval = TRUE}
+near_call_view_function("wrap.near", "ft_total_supply")
+```
+
+Balance query
+
+```{r ft_total_supply, eval = TRUE}
+near_call_view_function("wrap.near", "ft_balance_of",
+                        args = list(account_id = "vitalik.near"))
+```
+
+
+## Data analysis example
 
 ```{r plot, eval = TRUE}
 library(ggplot2)
