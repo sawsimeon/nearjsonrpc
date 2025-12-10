@@ -28,22 +28,6 @@
 #' keys <- near_get_access_keys("vitalik.near")
 #' keys
 #'
-#' # View only full-access keys
-#' keys |> dplyr::filter(access_key == "FullAccess")
-#'
-#' # View function-call keys (e.g. limited to a specific contract)
-#' keys |>
-#'   tidyr::unnest_wider(access_key) |>
-#'   dplyr::select(public_key, receiver_id, method_names)
-#'
-#' # 2. Check your own testnet account
-#' near_set_endpoint("testnet")
-#' near_get_access_keys("sawsimeon.testnet")
-#'
-#' # 3. Historical view — what keys existed at block 90,000,000?
-#' near_get_access_keys("bowen.testnet", block_id = 90000000)
-#' }
-#'
 #' @seealso
 #' \url{https://docs.near.org/api/rpc/access-keys#view-access-key-list}
 #' \url{https://docs.near.org/concepts/basics/accounts/access-keys}
