@@ -10,7 +10,7 @@
 #'
 #' @examples
 #' \dontrun{
-#' near_get_transaction_status("Cj3k...xyz", "alice.near")
+#' near_get_transaction_status("B3ho6i6nDbJm95PpXuhbZXhGwZzJkhMkwf8qpbu35AMr", "meteor-relayer.near")
 #' }
 #'
 #' @seealso \url{https://docs.near.org/api/rpc/transactions#transaction-status}
