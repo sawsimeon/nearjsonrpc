@@ -28,7 +28,7 @@ library(nearjsonrpc)
 # install.packages("nearjsonrpc")
 ```
 
-Set the endpoint (testnet is default):
+Set the endpoint:
 
 ```{r endpoint, eval = TRUE}
 
@@ -47,7 +47,70 @@ near_query_account("vitalik.near")
 ## List all access keys associated with a NEAR account
 
 ```{r keys, eval = TRUE}
-near_get_access_keys("vitalik.near")
+keys = near_get_access_keys("vitalik.near")
+keys
+```
+
+```{r all_info_keys, eval = TRUE}
+library(dplyr)
+library(purrr)
+library(tidyr)
+library(rlang)
+keys = near_get_access_keys("vitalik.near")
+library(dplyr)
+library(purrr)
+library(tidyr)
+library(rlang)
+
+# Flatten raw_response into a dataframe
+all_keys_df <- map_dfr(keys$raw_response, function(resp) {
+  # Some elements may not have $keys
+  if (!is.null(resp$keys)) {
+    map_dfr(resp$keys, function(k) {
+      ak <- k$access_key
+      pk <- k$public_key %||% NA_character_
+      
+      if (is.list(ak) && "FunctionCall" %in% names(ak$permission)) {
+        fc <- ak$permission$FunctionCall
+        tibble(
+          block_hash   = resp$block_hash %||% NA_character_,
+          block_height = resp$block_height %||% NA_integer_,
+          public_key   = pk,
+          nonce        = ak$nonce,
+          allowance    = fc$allowance %||% NA_character_,
+          method_names = if (length(fc$method_names) > 0) paste(fc$method_names, collapse = ", ") else NA_character_,
+          receiver_id  = fc$receiver_id,
+          permission_type = "FunctionCall"
+        )
+      } else {
+        tibble(
+          block_hash   = resp$block_hash %||% NA_character_,
+          block_height = resp$block_height %||% NA_integer_,
+          public_key   = pk,
+          nonce        = ak$nonce,
+          allowance    = NA_character_,
+          method_names = NA_character_,
+          receiver_id  = NA_character_,
+          permission_type = "FullAccess"
+        )
+      }
+    })
+  } else {
+    tibble(
+      block_hash   = NA_character_,
+      block_height = NA_integer_,
+      public_key   = NA_character_,
+      nonce        = NA_integer_,
+      allowance    = NA_character_,
+      method_names = NA_character_,
+      receiver_id  = NA_character_,
+      permission_type = NA_character_
+    )
+  }
+})
+
+all_keys_df
+
 ```
 
 ## Get Current Network Status and Node Info
@@ -80,7 +143,7 @@ near_call_view_function("wrap.near", "ft_total_supply")
 
 Balance query
 
-```{r ft_total_supply, eval = TRUE}
+```{r ft_balance_of, eval = TRUE}
 near_call_view_function("wrap.near", "ft_balance_of",
                         args = list(account_id = "vitalik.near"))
 ```
