@@ -24,6 +24,7 @@
 #' # Set endpoint first
 #' near_set_endpoint("mainnet")
 #' near_get_access_keys("vitalik.near")
+#' }
 #'
 #' @seealso
 #' \url{https://docs.near.org/api/rpc/access-keys#view-access-key-list}
