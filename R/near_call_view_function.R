@@ -21,31 +21,23 @@
 #' near_set_endpoint("mainnet")
 #'
 #' # FT Metadata
-#' near_call_view_function("wrap.near", "ft_metadata")$result_json[[1]]
+#' near_call_view_function("wrap.near", "ft_metadata")
 #'
 #' # Total supply
-#' near_call_view_function("wrap.near", "ft_total_supply")$result_text
+#' near_call_view_function("wrap.near", "ft_total_supply")
 #'
 #' # Balance query — REQUIRED argument!
 #' near_call_view_function(
 #'   "wrap.near",
 #'   "ft_balance_of",
 #'   args = list(account_id = "vitalik.near")
-#' )$result_text
+#' )
 #'
 #' # Ref Finance pool info
 #' near_call_view_function(
 #'   "v2.ref-finance.near",
 #'   "get_pool",
 #'   args = list(pool_id = 513)
-#' )
-#'
-#' # Historical call
-#' near_call_view_function(
-#'   "wrap.near",
-#'   "ft_balance_of",
-#'   args = list(account_id = "vitalik.near"),
-#'   block_id = 80000000
 #' )
 #'
 #' @seealso
