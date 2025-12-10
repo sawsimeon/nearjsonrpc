@@ -149,9 +149,9 @@ near_call_view_function("wrap.near", "ft_balance_of",
 ```
 
 
-# Data analysis 
+## Data analysis 
 
-## Top validators based on stakes
+### Top validators based on stakes
 
 ```{r plot, eval = TRUE}
 library(ggplot2)
@@ -176,7 +176,8 @@ vals %>%
 
 ```
 
-## Distribution of States (Major of the validators few Stakes)
+### Distribution of States (Major of the validators few Stakes)
+
 
 ```{r histogram, eval = TRUE}
 vals %>%
@@ -191,7 +192,7 @@ vals %>%
   theme_minimal()
 ```
 
-## Stake Share by Validator (Pie Chart)
+### Stake Share by Validator (Pie Chart)
 
 ```{r pie, eval = TRUE}
 vals %>%
@@ -208,11 +209,11 @@ vals %>%
 
 ```
 
-## Concentration Index (Lorenz Curve)
+### Concentration Index (Lorenz Curve)
 
 Show how concentrated stake is among validators
 
-```{r pie, eval = TRUE}
+```{r Lorenz, eval = TRUE}
 vals %>%
   arrange(desc(stake_near)) %>%
   mutate(cum_stake = cumsum(stake_near) / sum(stake_near),
@@ -229,6 +230,52 @@ vals %>%
 
 
 ```
+
+### Bar Plot of Stake Concentration
+
+```{r concentration_stake, eval = TRUE}
+
+vals %>%
+  arrange(desc(stake_near)) %>%
+  mutate(cum_share = cumsum(stake_near) / sum(stake_near)) %>%
+  slice_head(n = 20) %>%
+  ggplot(aes(x = reorder(account_id, cum_share), y = cum_share)) +
+  geom_col(fill = "orange") +
+  coord_flip() +
+  scale_y_continuous(labels = scales::percent) +
+  labs(
+    title = "Cumulative Stake Share of Top 20 Validators",
+    x = "Validator",
+    y = "Cumulative Stake Share"
+  ) +
+  theme_minimal()
+
+
+
+```
+
+
+The result indicates that validator stakes are highly concentrated. A small number of validators control the majority of the total stake. The network is therefore less decentralized in terms of stake distribution.
+
+## Get Block Information
+
+Latest block
+```{r latest_block, eval = TRUE}
+near_get_block("final")
+```
+
+Block by height
+
+```{r height_block, eval = TRUE}
+near_get_block(176259877)
+```
+
+Block by hash
+
+```{r hash_block, eval = TRUE}
+near_get_block("CanDKa6nYDQ89iv5U7sE1YDFteBRkBG6qBJjiM5YwGtY")
+```
+
 
 
 
