@@ -74,7 +74,7 @@ reproducible R scripts.</p>
 <div class="section level3">
 <h3 id="setup">Setup<a class="anchor" aria-label="anchor" href="#setup"></a>
 </h3>
-<p>Set the endpoint (testnet is default):</p>
+<p>Set the endpoint:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/near_set_endpoint.html">near_set_endpoint</a></span><span class="op">(</span><span class="st">'mainnet'</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## <span style="color: #00BB00;">✔</span> NEAR RPC endpoint set to <span style="color: #0000BB; font-style: italic;">&lt;https://rpc.mainnet.near.org&gt;</span></span></span></code></pre>
@@ -91,42 +91,142 @@ reproducible R scripts.</p>
 <pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 1 × 8</span></span></span>
 <span><span class="co">##   account_id   amount     locked storage_usage code_hash block_height block_hash</span></span>
 <span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">1</span> vitalik.near 546329351… 0             <span style="text-decoration: underline;">358</span>058 55E7imni…    176<span style="text-decoration: underline;">106</span>856 8q7gxQSQ7…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">1</span> vitalik.near 546329351… 0             <span style="text-decoration: underline;">358</span>058 55E7imni…    176<span style="text-decoration: underline;">268</span>046 AfS7LTk6i…</span></span>
 <span><span class="co">## <span style="color: #949494;"># ℹ 1 more variable: raw_response &lt;list&gt;</span></span></span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="list-all-access-keys-associated-with-a-near-account">List all access keys associated with a NEAR account<a class="anchor" aria-label="anchor" href="#list-all-access-keys-associated-with-a-near-account"></a>
 </h3>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/near_get_access_keys.html">near_get_access_keys</a></span><span class="op">(</span><span class="st">"vitalik.near"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">keys</span> <span class="op">=</span> <span class="fu"><a href="../reference/near_get_access_keys.html">near_get_access_keys</a></span><span class="op">(</span><span class="st">"vitalik.near"</span><span class="op">)</span></span>
+<span><span class="va">keys</span></span></code></pre></div>
 <pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 7 × 5</span></span></span>
 <span><span class="co">##   public_key                   access_key   block_height block_hash raw_response</span></span>
 <span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                        <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>      </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">1</span> ed25519:5a4CCWCJrnMGxSVtjMp… <span style="color: #949494;">&lt;named list&gt;</span>    176<span style="text-decoration: underline;">106</span>856 8q7gxQSQ7… <span style="color: #949494;">&lt;named list&gt;</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">2</span> ed25519:6EBwyCYEjH1VsjJSUQo… <span style="color: #949494;">&lt;named list&gt;</span>    176<span style="text-decoration: underline;">106</span>856 8q7gxQSQ7… <span style="color: #949494;">&lt;named list&gt;</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">3</span> ed25519:77oj7oJGG3AoeRaKaAF… <span style="color: #949494;">&lt;named list&gt;</span>    176<span style="text-decoration: underline;">106</span>856 8q7gxQSQ7… <span style="color: #949494;">&lt;named list&gt;</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">4</span> ed25519:7CH3JEY5abPhVcdPQxg… <span style="color: #949494;">&lt;named list&gt;</span>    176<span style="text-decoration: underline;">106</span>856 8q7gxQSQ7… <span style="color: #949494;">&lt;named list&gt;</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">5</span> ed25519:9ePBRZ3W1RpUKsaErip… <span style="color: #949494;">&lt;named list&gt;</span>    176<span style="text-decoration: underline;">106</span>856 8q7gxQSQ7… <span style="color: #949494;">&lt;named list&gt;</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">6</span> ed25519:Dr9NjCcEMvXEjECaJ9t… <span style="color: #949494;">&lt;named list&gt;</span>    176<span style="text-decoration: underline;">106</span>856 8q7gxQSQ7… <span style="color: #949494;">&lt;named list&gt;</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">7</span> ed25519:DyijRtwLRrSysLAgEAn… <span style="color: #949494;">&lt;named list&gt;</span>    176<span style="text-decoration: underline;">106</span>856 8q7gxQSQ7… <span style="color: #949494;">&lt;named list&gt;</span></span></span></code></pre>
+<span><span class="co">## <span style="color: #BCBCBC;">1</span> ed25519:5a4CCWCJrnMGxSVtjMp… <span style="color: #949494;">&lt;named list&gt;</span>    176<span style="text-decoration: underline;">268</span>047 7qVSLJovA… <span style="color: #949494;">&lt;named list&gt;</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">2</span> ed25519:6EBwyCYEjH1VsjJSUQo… <span style="color: #949494;">&lt;named list&gt;</span>    176<span style="text-decoration: underline;">268</span>047 7qVSLJovA… <span style="color: #949494;">&lt;named list&gt;</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">3</span> ed25519:77oj7oJGG3AoeRaKaAF… <span style="color: #949494;">&lt;named list&gt;</span>    176<span style="text-decoration: underline;">268</span>047 7qVSLJovA… <span style="color: #949494;">&lt;named list&gt;</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">4</span> ed25519:7CH3JEY5abPhVcdPQxg… <span style="color: #949494;">&lt;named list&gt;</span>    176<span style="text-decoration: underline;">268</span>047 7qVSLJovA… <span style="color: #949494;">&lt;named list&gt;</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">5</span> ed25519:9ePBRZ3W1RpUKsaErip… <span style="color: #949494;">&lt;named list&gt;</span>    176<span style="text-decoration: underline;">268</span>047 7qVSLJovA… <span style="color: #949494;">&lt;named list&gt;</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">6</span> ed25519:Dr9NjCcEMvXEjECaJ9t… <span style="color: #949494;">&lt;named list&gt;</span>    176<span style="text-decoration: underline;">268</span>047 7qVSLJovA… <span style="color: #949494;">&lt;named list&gt;</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">7</span> ed25519:DyijRtwLRrSysLAgEAn… <span style="color: #949494;">&lt;named list&gt;</span>    176<span style="text-decoration: underline;">268</span>047 7qVSLJovA… <span style="color: #949494;">&lt;named list&gt;</span></span></span></code></pre>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## </span></span>
+<span><span class="co">## Attaching package: 'dplyr'</span></span></code></pre>
+<pre><code><span><span class="co">## The following objects are masked from 'package:stats':</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">##     filter, lag</span></span></code></pre>
+<pre><code><span><span class="co">## The following objects are masked from 'package:base':</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">##     intersect, setdiff, setequal, union</span></span></code></pre>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://purrr.tidyverse.org/" class="external-link">purrr</a></span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## </span></span>
+<span><span class="co">## Attaching package: 'purrr'</span></span></code></pre>
+<pre><code><span><span class="co">## The following object is masked from 'package:nearjsonrpc':</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">##     %||%</span></span></code></pre>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyr.tidyverse.org" class="external-link">tidyr</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rlang.r-lib.org" class="external-link">rlang</a></span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## </span></span>
+<span><span class="co">## Attaching package: 'rlang'</span></span></code></pre>
+<pre><code><span><span class="co">## The following objects are masked from 'package:purrr':</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">##     %@%, flatten, flatten_chr, flatten_dbl, flatten_int, flatten_lgl,</span></span>
+<span><span class="co">##     flatten_raw, invoke, splice</span></span></code></pre>
+<pre><code><span><span class="co">## The following object is masked from 'package:nearjsonrpc':</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">##     %||%</span></span></code></pre>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">keys</span> <span class="op">=</span> <span class="fu"><a href="../reference/near_get_access_keys.html">near_get_access_keys</a></span><span class="op">(</span><span class="st">"vitalik.near"</span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://purrr.tidyverse.org/" class="external-link">purrr</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyr.tidyverse.org" class="external-link">tidyr</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rlang.r-lib.org" class="external-link">rlang</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Flatten raw_response into a dataframe</span></span>
+<span><span class="va">all_keys_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map_dfr.html" class="external-link">map_dfr</a></span><span class="op">(</span><span class="va">keys</span><span class="op">$</span><span class="va">raw_response</span>, <span class="kw">function</span><span class="op">(</span><span class="va">resp</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="co"># Some elements may not have $keys</span></span>
+<span>  <span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NULL.html" class="external-link">is.null</a></span><span class="op">(</span><span class="va">resp</span><span class="op">$</span><span class="va">keys</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="fu"><a href="https://purrr.tidyverse.org/reference/map_dfr.html" class="external-link">map_dfr</a></span><span class="op">(</span><span class="va">resp</span><span class="op">$</span><span class="va">keys</span>, <span class="kw">function</span><span class="op">(</span><span class="va">k</span><span class="op">)</span> <span class="op">{</span></span>
+<span>      <span class="va">ak</span> <span class="op">&lt;-</span> <span class="va">k</span><span class="op">$</span><span class="va">access_key</span></span>
+<span>      <span class="va">pk</span> <span class="op">&lt;-</span> <span class="va">k</span><span class="op">$</span><span class="va">public_key</span> <span class="op"><a href="../reference/grapes-or-or-grapes.html">%||%</a></span> <span class="cn">NA_character_</span></span>
+<span>      </span>
+<span>      <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">is.list</a></span><span class="op">(</span><span class="va">ak</span><span class="op">)</span> <span class="op">&amp;&amp;</span> <span class="st">"FunctionCall"</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">ak</span><span class="op">$</span><span class="va">permission</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>        <span class="va">fc</span> <span class="op">&lt;-</span> <span class="va">ak</span><span class="op">$</span><span class="va">permission</span><span class="op">$</span><span class="va">FunctionCall</span></span>
+<span>        <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span></span>
+<span>          block_hash   <span class="op">=</span> <span class="va">resp</span><span class="op">$</span><span class="va">block_hash</span> <span class="op"><a href="../reference/grapes-or-or-grapes.html">%||%</a></span> <span class="cn">NA_character_</span>,</span>
+<span>          block_height <span class="op">=</span> <span class="va">resp</span><span class="op">$</span><span class="va">block_height</span> <span class="op"><a href="../reference/grapes-or-or-grapes.html">%||%</a></span> <span class="cn">NA_integer_</span>,</span>
+<span>          public_key   <span class="op">=</span> <span class="va">pk</span>,</span>
+<span>          nonce        <span class="op">=</span> <span class="va">ak</span><span class="op">$</span><span class="va">nonce</span>,</span>
+<span>          allowance    <span class="op">=</span> <span class="va">fc</span><span class="op">$</span><span class="va">allowance</span> <span class="op"><a href="../reference/grapes-or-or-grapes.html">%||%</a></span> <span class="cn">NA_character_</span>,</span>
+<span>          method_names <span class="op">=</span> <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">fc</span><span class="op">$</span><span class="va">method_names</span><span class="op">)</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="va">fc</span><span class="op">$</span><span class="va">method_names</span>, collapse <span class="op">=</span> <span class="st">", "</span><span class="op">)</span> <span class="kw">else</span> <span class="cn">NA_character_</span>,</span>
+<span>          receiver_id  <span class="op">=</span> <span class="va">fc</span><span class="op">$</span><span class="va">receiver_id</span>,</span>
+<span>          permission_type <span class="op">=</span> <span class="st">"FunctionCall"</span></span>
+<span>        <span class="op">)</span></span>
+<span>      <span class="op">}</span> <span class="kw">else</span> <span class="op">{</span></span>
+<span>        <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span></span>
+<span>          block_hash   <span class="op">=</span> <span class="va">resp</span><span class="op">$</span><span class="va">block_hash</span> <span class="op"><a href="../reference/grapes-or-or-grapes.html">%||%</a></span> <span class="cn">NA_character_</span>,</span>
+<span>          block_height <span class="op">=</span> <span class="va">resp</span><span class="op">$</span><span class="va">block_height</span> <span class="op"><a href="../reference/grapes-or-or-grapes.html">%||%</a></span> <span class="cn">NA_integer_</span>,</span>
+<span>          public_key   <span class="op">=</span> <span class="va">pk</span>,</span>
+<span>          nonce        <span class="op">=</span> <span class="va">ak</span><span class="op">$</span><span class="va">nonce</span>,</span>
+<span>          allowance    <span class="op">=</span> <span class="cn">NA_character_</span>,</span>
+<span>          method_names <span class="op">=</span> <span class="cn">NA_character_</span>,</span>
+<span>          receiver_id  <span class="op">=</span> <span class="cn">NA_character_</span>,</span>
+<span>          permission_type <span class="op">=</span> <span class="st">"FullAccess"</span></span>
+<span>        <span class="op">)</span></span>
+<span>      <span class="op">}</span></span>
+<span>    <span class="op">}</span><span class="op">)</span></span>
+<span>  <span class="op">}</span> <span class="kw">else</span> <span class="op">{</span></span>
+<span>    <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span></span>
+<span>      block_hash   <span class="op">=</span> <span class="cn">NA_character_</span>,</span>
+<span>      block_height <span class="op">=</span> <span class="cn">NA_integer_</span>,</span>
+<span>      public_key   <span class="op">=</span> <span class="cn">NA_character_</span>,</span>
+<span>      nonce        <span class="op">=</span> <span class="cn">NA_integer_</span>,</span>
+<span>      allowance    <span class="op">=</span> <span class="cn">NA_character_</span>,</span>
+<span>      method_names <span class="op">=</span> <span class="cn">NA_character_</span>,</span>
+<span>      receiver_id  <span class="op">=</span> <span class="cn">NA_character_</span>,</span>
+<span>      permission_type <span class="op">=</span> <span class="cn">NA_character_</span></span>
+<span>    <span class="op">)</span></span>
+<span>  <span class="op">}</span></span>
+<span><span class="op">}</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">all_keys_df</span></span></code></pre></div>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 49 × 8</span></span></span>
+<span><span class="co">##    block_hash block_height public_key   nonce allowance method_names receiver_id</span></span>
+<span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 1</span> AfkjwGPn9…    176<span style="text-decoration: underline;">268</span>048 ed25519:5… 1.4 <span style="color: #949494;">e</span> 1 23318196… add_request… vitalik.ne…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 2</span> AfkjwGPn9…    176<span style="text-decoration: underline;">268</span>048 ed25519:6… 1.5 <span style="color: #949494;">e</span> 1 <span style="color: #BB0000;">NA</span>        add_request… vitalik.ne…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 3</span> AfkjwGPn9…    176<span style="text-decoration: underline;">268</span>048 ed25519:7… 0   <span style="color: #949494;"> </span>   25000000… <span style="color: #BB0000;">NA</span>           claim-toke…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 4</span> AfkjwGPn9…    176<span style="text-decoration: underline;">268</span>048 ed25519:7… 5.24<span style="color: #949494;">e</span>13 25000000… <span style="color: #BB0000;">NA</span>           launchpad.…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 5</span> AfkjwGPn9…    176<span style="text-decoration: underline;">268</span>048 ed25519:9… 3.1 <span style="color: #949494;">e</span> 1 <span style="color: #BB0000;">NA</span>        confirm      vitalik.ne…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 6</span> AfkjwGPn9…    176<span style="text-decoration: underline;">268</span>048 ed25519:D… 5.24<span style="color: #949494;">e</span>13 24755542… add_request… vitalik.ne…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 7</span> AfkjwGPn9…    176<span style="text-decoration: underline;">268</span>048 ed25519:D… 3   <span style="color: #949494;">e</span> 0 <span style="color: #BB0000;">NA</span>        <span style="color: #BB0000;">NA</span>           <span style="color: #BB0000;">NA</span>         </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 8</span> AfkjwGPn9…    176<span style="text-decoration: underline;">268</span>048 ed25519:5… 1.4 <span style="color: #949494;">e</span> 1 23318196… add_request… vitalik.ne…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 9</span> AfkjwGPn9…    176<span style="text-decoration: underline;">268</span>048 ed25519:6… 1.5 <span style="color: #949494;">e</span> 1 <span style="color: #BB0000;">NA</span>        add_request… vitalik.ne…</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">10</span> AfkjwGPn9…    176<span style="text-decoration: underline;">268</span>048 ed25519:7… 0   <span style="color: #949494;"> </span>   25000000… <span style="color: #BB0000;">NA</span>           claim-toke…</span></span>
+<span><span class="co">## <span style="color: #949494;"># ℹ 39 more rows</span></span></span>
+<span><span class="co">## <span style="color: #949494;"># ℹ 1 more variable: permission_type &lt;chr&gt;</span></span></span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="get-current-network-status-and-node-info">Get Current Network Status and Node Info<a class="anchor" aria-label="anchor" href="#get-current-network-status-and-node-info"></a>
 </h3>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">status</span> <span class="op">=</span> <span class="fu"><a href="../reference/near_network_status.html">near_network_status</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">status</span></span></code></pre></div>
 <pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 1 × 8</span></span></span>
 <span><span class="co">##   chain_id latest_block_height latest_block_hash                 syncing version</span></span>
 <span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                             <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">1</span> mainnet            176<span style="text-decoration: underline;">106</span>859 CC48c3d9qztktGto8RtfdZ4wWqDEUqfd… FALSE   2.10.1 </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">1</span> mainnet            176<span style="text-decoration: underline;">268</span>052 DjiY1igXCaXhvgRvAGLqq2CrZWaRUCQU… FALSE   2.10.1 </span></span>
 <span><span class="co">## <span style="color: #949494;"># ℹ 3 more variables: protocol_version &lt;int&gt;, validators &lt;list&gt;,</span></span></span>
 <span><span class="co">## <span style="color: #949494;">#   raw_response &lt;list&gt;</span></span></span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="get-near-protocol-configuration">Get NEAR Protocol Configuration<a class="anchor" aria-label="anchor" href="#get-near-protocol-configuration"></a>
 </h3>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">protocol_config</span> <span class="op">=</span> <span class="fu"><a href="../reference/near_get_protocol_config.html">near_get_protocol_config</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">protocol_config</span></span></code></pre></div>
 <pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 1 × 5</span></span></span>
@@ -138,49 +238,48 @@ reproducible R scripts.</p>
 <h3 id="view-near-smart-contract">View NEAR Smart Contract<a class="anchor" aria-label="anchor" href="#view-near-smart-contract"></a>
 </h3>
 <p>FT Metadata</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/near_call_view_function.html">near_call_view_function</a></span><span class="op">(</span><span class="st">"wrap.near"</span>, <span class="st">"ft_metadata"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 1 × 9</span></span></span>
 <span><span class="co">##   account_id method_name result_raw result_text result_json  logs   block_height</span></span>
 <span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">1</span> wrap.near  ft_metadata <span style="color: #949494;">&lt;raw&gt;</span>      <span style="color: #949494;">"</span>{\"spec\"… <span style="color: #949494;">&lt;named list&gt;</span> <span style="color: #949494;">&lt;list&gt;</span>    176<span style="text-decoration: underline;">106</span>858</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">1</span> wrap.near  ft_metadata <span style="color: #949494;">&lt;raw&gt;</span>      <span style="color: #949494;">"</span>{\"spec\"… <span style="color: #949494;">&lt;named list&gt;</span> <span style="color: #949494;">&lt;list&gt;</span>    176<span style="text-decoration: underline;">268</span>052</span></span>
 <span><span class="co">## <span style="color: #949494;"># ℹ 2 more variables: block_hash &lt;chr&gt;, raw_response &lt;list&gt;</span></span></span></code></pre>
 <p>Total supply</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/near_call_view_function.html">near_call_view_function</a></span><span class="op">(</span><span class="st">"wrap.near"</span>, <span class="st">"ft_total_supply"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 1 × 9</span></span></span>
 <span><span class="co">##   account_id method_name  result_raw result_text result_json logs   block_height</span></span>
 <span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">1</span> wrap.near  ft_total_su… <span style="color: #949494;">&lt;raw [34]&gt;</span> <span style="color: #949494;">"</span>\"1812436… <span style="color: #949494;">&lt;chr [1]&gt;</span>   <span style="color: #949494;">&lt;list&gt;</span>    176<span style="text-decoration: underline;">106</span>859</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">1</span> wrap.near  ft_total_su… <span style="color: #949494;">&lt;raw [34]&gt;</span> <span style="color: #949494;">"</span>\"1823371… <span style="color: #949494;">&lt;chr [1]&gt;</span>   <span style="color: #949494;">&lt;list&gt;</span>    176<span style="text-decoration: underline;">268</span>053</span></span>
 <span><span class="co">## <span style="color: #949494;"># ℹ 2 more variables: block_hash &lt;chr&gt;, raw_response &lt;list&gt;</span></span></span></code></pre>
 <p>Balance query</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/near_call_view_function.html">near_call_view_function</a></span><span class="op">(</span><span class="st">"wrap.near"</span>, <span class="st">"ft_balance_of"</span>,</span>
 <span>                        args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>account_id <span class="op">=</span> <span class="st">"vitalik.near"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 1 × 9</span></span></span>
 <span><span class="co">##   account_id method_name  result_raw result_text result_json logs   block_height</span></span>
 <span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">1</span> wrap.near  ft_balance_… <span style="color: #949494;">&lt;raw [3]&gt;</span>  <span style="color: #949494;">"</span>\"0\"<span style="color: #949494;">"</span>     <span style="color: #949494;">&lt;chr [1]&gt;</span>   <span style="color: #949494;">&lt;list&gt;</span>    176<span style="text-decoration: underline;">106</span>859</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">1</span> wrap.near  ft_balance_… <span style="color: #949494;">&lt;raw [3]&gt;</span>  <span style="color: #949494;">"</span>\"0\"<span style="color: #949494;">"</span>     <span style="color: #949494;">&lt;chr [1]&gt;</span>   <span style="color: #949494;">&lt;list&gt;</span>    176<span style="text-decoration: underline;">268</span>054</span></span>
 <span><span class="co">## <span style="color: #949494;"># ℹ 2 more variables: block_hash &lt;chr&gt;, raw_response &lt;list&gt;</span></span></span></code></pre>
 </div>
 <div class="section level3">
-<h3 id="data-analysis-example">Data analysis example<a class="anchor" aria-label="anchor" href="#data-analysis-example"></a>
+<h3 id="data-analysis">Data analysis<a class="anchor" aria-label="anchor" href="#data-analysis"></a>
 </h3>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="section level4">
+<h4 id="top-validators-based-on-stakes">Top validators based on stakes<a class="anchor" aria-label="anchor" href="#top-validators-based-on-stakes"></a>
+</h4>
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span></code></pre></div>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://scales.r-lib.org" class="external-link">scales</a></span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
-<span><span class="co">## Attaching package: 'dplyr'</span></span></code></pre>
-<pre><code><span><span class="co">## The following objects are masked from 'package:stats':</span></span>
+<span><span class="co">## Attaching package: 'scales'</span></span></code></pre>
+<pre><code><span><span class="co">## The following object is masked from 'package:purrr':</span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">##     filter, lag</span></span></code></pre>
-<pre><code><span><span class="co">## The following objects are masked from 'package:base':</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##     intersect, setdiff, setequal, union</span></span></code></pre>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://scales.r-lib.org" class="external-link">scales</a></span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Get recent validator stakes</span></span>
+<span><span class="co">##     discard</span></span></code></pre>
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Get recent validator stakes</span></span>
 <span><span class="va">vals</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/near_get_validators.html">near_get_validators</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">vals</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
@@ -196,6 +295,131 @@ reproducible R scripts.</p>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><img src="nearjsonrpc-intro_files/figure-html/plot-1.png" width="700"></p>
+</div>
+<div class="section level4">
+<h4 id="distribution-of-states-major-of-the-validators-few-stakes">Distribution of States (Major of the validators few Stakes)<a class="anchor" aria-label="anchor" href="#distribution-of-states-major-of-the-validators-few-stakes"></a>
+</h4>
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">vals</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">stake_near</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html" class="external-link">geom_histogram</a></span><span class="op">(</span>bins <span class="op">=</span> <span class="fl">30</span>, fill <span class="op">=</span> <span class="st">"darkgreen"</span>, color <span class="op">=</span> <span class="st">"white"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_x_continuous</a></span><span class="op">(</span>labels <span class="op">=</span> <span class="fu">scales</span><span class="fu">::</span><span class="va"><a href="https://scales.r-lib.org/reference/comma.html" class="external-link">comma</a></span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span></span>
+<span>    title <span class="op">=</span> <span class="st">"Distribution of Validator Stakes"</span>,</span>
+<span>    x <span class="op">=</span> <span class="st">"Stake (NEAR)"</span>,</span>
+<span>    y <span class="op">=</span> <span class="st">"Number of Validators"</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p><img src="nearjsonrpc-intro_files/figure-html/histogram-1.png" width="700"></p>
+</div>
+<div class="section level4">
+<h4 id="stake-share-by-validator-pie-chart">Stake Share by Validator (Pie Chart)<a class="anchor" aria-label="anchor" href="#stake-share-by-validator-pie-chart"></a>
+</h4>
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">vals</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html" class="external-link">slice_max</a></span><span class="op">(</span>order_by <span class="op">=</span> <span class="va">stake_near</span>, n <span class="op">=</span> <span class="fl">10</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">""</span>, y <span class="op">=</span> <span class="va">stake_near</span>, fill <span class="op">=</span> <span class="va">account_id</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html" class="external-link">geom_col</a></span><span class="op">(</span>width <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_radial.html" class="external-link">coord_polar</a></span><span class="op">(</span>theta <span class="op">=</span> <span class="st">"y"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_y_continuous</a></span><span class="op">(</span>labels <span class="op">=</span> <span class="fu">scales</span><span class="fu">::</span><span class="va"><a href="https://scales.r-lib.org/reference/comma.html" class="external-link">comma</a></span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span></span>
+<span>    title <span class="op">=</span> <span class="st">"Top 10 Validators Stake Share"</span>,</span>
+<span>    fill <span class="op">=</span> <span class="st">"Validator"</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_void</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p><img src="nearjsonrpc-intro_files/figure-html/pie-1.png" width="700"></p>
+</div>
+<div class="section level4">
+<h4 id="concentration-index-lorenz-curve">Concentration Index (Lorenz Curve)<a class="anchor" aria-label="anchor" href="#concentration-index-lorenz-curve"></a>
+</h4>
+<p>Show how concentrated stake is among validators</p>
+<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">vals</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html" class="external-link">desc</a></span><span class="op">(</span><span class="va">stake_near</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>cum_stake <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cumsum.html" class="external-link">cumsum</a></span><span class="op">(</span><span class="va">stake_near</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">stake_near</span><span class="op">)</span>,</span>
+<span>         cum_validators <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/row_number.html" class="external-link">row_number</a></span><span class="op">(</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html" class="external-link">n</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">cum_validators</span>, y <span class="op">=</span> <span class="va">cum_stake</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"gold"</span>, size <span class="op">=</span> <span class="fl">1.2</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html" class="external-link">geom_abline</a></span><span class="op">(</span>slope <span class="op">=</span> <span class="fl">1</span>, intercept <span class="op">=</span> <span class="fl">0</span>, linetype <span class="op">=</span> <span class="st">"dashed"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span></span>
+<span>    title <span class="op">=</span> <span class="st">"Lorenz Curve of Validator Stakes"</span>,</span>
+<span>    x <span class="op">=</span> <span class="st">"Cumulative Share of Validators"</span>,</span>
+<span>    y <span class="op">=</span> <span class="st">"Cumulative Share of Stake"</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.</span></span>
+<span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Please use `linewidth` instead.</span></span>
+<span><span class="co">## <span style="color: #555555;">This warning is displayed once every 8 hours.</span></span></span>
+<span><span class="co">## <span style="color: #555555;">Call `lifecycle::last_lifecycle_warnings()` to see where this warning was</span></span></span>
+<span><span class="co">## <span style="color: #555555;">generated.</span></span></span></code></pre>
+<p><img src="nearjsonrpc-intro_files/figure-html/Lorenz-1.png" width="700"></p>
+</div>
+<div class="section level4">
+<h4 id="bar-plot-of-stake-concentration">Bar Plot of Stake Concentration<a class="anchor" aria-label="anchor" href="#bar-plot-of-stake-concentration"></a>
+</h4>
+<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">vals</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html" class="external-link">desc</a></span><span class="op">(</span><span class="va">stake_near</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>cum_share <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cumsum.html" class="external-link">cumsum</a></span><span class="op">(</span><span class="va">stake_near</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">stake_near</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html" class="external-link">slice_head</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">20</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/reorder.factor.html" class="external-link">reorder</a></span><span class="op">(</span><span class="va">account_id</span>, <span class="va">cum_share</span><span class="op">)</span>, y <span class="op">=</span> <span class="va">cum_share</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html" class="external-link">geom_col</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"orange"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_flip.html" class="external-link">coord_flip</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_y_continuous</a></span><span class="op">(</span>labels <span class="op">=</span> <span class="fu">scales</span><span class="fu">::</span><span class="va"><a href="https://scales.r-lib.org/reference/percent_format.html" class="external-link">percent</a></span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span></span>
+<span>    title <span class="op">=</span> <span class="st">"Cumulative Stake Share of Top 20 Validators"</span>,</span>
+<span>    x <span class="op">=</span> <span class="st">"Validator"</span>,</span>
+<span>    y <span class="op">=</span> <span class="st">"Cumulative Stake Share"</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p><img src="nearjsonrpc-intro_files/figure-html/concentration_stake-1.png" width="700"></p>
+<p>The result indicates that validator stakes are highly concentrated. A
+small number of validators control the majority of the total stake. The
+network is therefore less decentralized in terms of stake
+distribution.</p>
+</div>
+</div>
+<div class="section level3">
+<h3 id="get-block-information">Get Block Information<a class="anchor" aria-label="anchor" href="#get-block-information"></a>
+</h3>
+<p>Latest block</p>
+<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/near_get_block.html">near_get_block</a></span><span class="op">(</span><span class="st">"final"</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 1 × 10</span></span></span>
+<span><span class="co">##      height hash  prev_hash timestamp           author chunks_included gas_price</span></span>
+<span><span class="co">##       <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">1</span> 176<span style="text-decoration: underline;">268</span>067 AaBq… Fb5G3Ewk… 2025-12-10 <span style="color: #949494;">18:13:43</span> epoch…               9 100000000</span></span>
+<span><span class="co">## <span style="color: #949494;"># ℹ 3 more variables: total_supply &lt;chr&gt;, latest_protocol_version &lt;int&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   raw_response &lt;list&gt;</span></span></span></code></pre>
+<p>Block by height</p>
+<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/near_get_block.html">near_get_block</a></span><span class="op">(</span><span class="fl">176259877</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 1 × 10</span></span></span>
+<span><span class="co">##      height hash  prev_hash timestamp           author chunks_included gas_price</span></span>
+<span><span class="co">##       <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">1</span> 176<span style="text-decoration: underline;">259</span>877 CanD… BREsXR6t… 2025-12-10 <span style="color: #949494;">16:47:44</span> epic.…               9 100000000</span></span>
+<span><span class="co">## <span style="color: #949494;"># ℹ 3 more variables: total_supply &lt;chr&gt;, latest_protocol_version &lt;int&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   raw_response &lt;list&gt;</span></span></span></code></pre>
+<p>Block by hash</p>
+<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/near_get_block.html">near_get_block</a></span><span class="op">(</span><span class="st">"CanDKa6nYDQ89iv5U7sE1YDFteBRkBG6qBJjiM5YwGtY"</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 1 × 10</span></span></span>
+<span><span class="co">##      height hash  prev_hash timestamp           author chunks_included gas_price</span></span>
+<span><span class="co">##       <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">1</span> 176<span style="text-decoration: underline;">259</span>877 CanD… BREsXR6t… 2025-12-10 <span style="color: #949494;">16:47:44</span> epic.…               9 100000000</span></span>
+<span><span class="co">## <span style="color: #949494;"># ℹ 3 more variables: total_supply &lt;chr&gt;, latest_protocol_version &lt;int&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   raw_response &lt;list&gt;</span></span></span></code></pre>
+</div>
+<div class="section level3">
+<h3 id="check-transaction-status">Check Transaction Status<a class="anchor" aria-label="anchor" href="#check-transaction-status"></a>
+</h3>
+<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/near_get_transaction_status.html">near_get_transaction_status</a></span><span class="op">(</span><span class="st">"B3ho6i6nDbJm95PpXuhbZXhGwZzJkhMkwf8qpbu35AMr"</span>, </span>
+<span>                            <span class="st">"meteor-relayer.near"</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 1 × 5</span></span></span>
+<span><span class="co">##   hash                   status       transaction  receipts_outcome raw_response</span></span>
+<span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                  <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>      </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">1</span> B3ho6i6nDbJm95PpXuhbZ… <span style="color: #949494;">&lt;named list&gt;</span> <span style="color: #949494;">&lt;named list&gt;</span> <span style="color: #949494;">&lt;list [4]&gt;</span>       <span style="color: #949494;">&lt;named list&gt;</span></span></span></code></pre>
 </div>
 </div>
 <div class="section level2">
