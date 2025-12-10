@@ -149,7 +149,9 @@ near_call_view_function("wrap.near", "ft_balance_of",
 ```
 
 
-## Data analysis example
+# Data analysis 
+
+## Top validators based on stakes
 
 ```{r plot, eval = TRUE}
 library(ggplot2)
@@ -173,6 +175,62 @@ vals %>%
   theme_minimal()
 
 ```
+
+## Distribution of States (Major of the validators few Stakes)
+
+```{r histogram, eval = TRUE}
+vals %>%
+  ggplot(aes(x = stake_near)) +
+  geom_histogram(bins = 30, fill = "darkgreen", color = "white") +
+  scale_x_continuous(labels = scales::comma) +
+  labs(
+    title = "Distribution of Validator Stakes",
+    x = "Stake (NEAR)",
+    y = "Number of Validators"
+  ) +
+  theme_minimal()
+```
+
+## Stake Share by Validator (Pie Chart)
+
+```{r pie, eval = TRUE}
+vals %>%
+  slice_max(order_by = stake_near, n = 10) %>%
+  ggplot(aes(x = "", y = stake_near, fill = account_id)) +
+  geom_col(width = 1) +
+  coord_polar(theta = "y") +
+  scale_y_continuous(labels = scales::comma) +
+  labs(
+    title = "Top 10 Validators Stake Share",
+    fill = "Validator"
+  ) +
+  theme_void()
+
+```
+
+## Concentration Index (Lorenz Curve)
+
+Show how concentrated stake is among validators
+
+```{r pie, eval = TRUE}
+vals %>%
+  arrange(desc(stake_near)) %>%
+  mutate(cum_stake = cumsum(stake_near) / sum(stake_near),
+         cum_validators = row_number() / n()) %>%
+  ggplot(aes(x = cum_validators, y = cum_stake)) +
+  geom_line(color = "gold", size = 1.2) +
+  geom_abline(slope = 1, intercept = 0, linetype = "dashed") +
+  labs(
+    title = "Lorenz Curve of Validator Stakes",
+    x = "Cumulative Share of Validators",
+    y = "Cumulative Share of Stake"
+  ) +
+  theme_minimal()
+
+
+```
+
+
 
 # Error handling and best practices
 
