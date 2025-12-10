@@ -24,8 +24,7 @@ Suggests:
     knitr,
     rmarkdown,
     pkgdown,
-    httptest2, 
-    ineq
+    httptest2
 VignetteBuilder: knitr
 URL: https://github.com/sawsimeon/nearjsonrpc
 BugReports: https://github.com/sawsimeon/nearjsonrpc/issues
