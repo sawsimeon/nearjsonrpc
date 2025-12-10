@@ -20,7 +20,7 @@
 #' @examples
 #' near_set_endpoint("mainnet")
 #'
-#' # FT Metadata — works perfectly!
+#' # FT Metadata
 #' near_call_view_function("wrap.near", "ft_metadata")$result_json[[1]]
 #'
 #' # Total supply
