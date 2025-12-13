@@ -34,6 +34,7 @@
 #'
 #' @seealso
 #' \url{https://docs.near.org/tools/near-cli#sign-transaction}
+#' \url{https://docs.near.org/api/rpc/transactions#send-transaction-wait-until}
 #' [near_get_transaction_status()] – poll later
 #'
 near_broadcast_tx <- function(
