@@ -37,7 +37,7 @@ More functions coming soon!
 
 ```r
 # Install from CRAN (when available)
-install.packages("nearjsonrpc")
+# install.packages("nearjsonrpc")
 
 # Or the development version from GitHub
 # install.packages("remotes")
@@ -45,7 +45,80 @@ remotes::install_github("sawsimeon/nearjsonrpc")
 
 ```
 
-## Usage
+## Get Testnet Near (Free Faucet)
+
+To test functions that require transactions (like `near_broadcast_tx()`), you need test NEAR:
+
+1. Create a testnet account at [wallet](https://wallet.testnet.near.org/) (e.g. `yourname.testnet`)
+2. Fund it using the [faucet](https://near-faucet.io/).
+3. You are ready to sign and broadcast transactions.
+
+## Usage (Testnet)
+```r
+library(nearjsonrpc)
+
+# Switch to testnet for safe testing
+near_set_endpoint("testnet")
+✔ NEAR RPC endpoint set to <https://rpc.testnet.near.org>
+
+# Get account balance and details
+near_query_account("sawsimeon.testnet")
+# A tibble: 1 × 8
+  account_id        amount       locked storage_usage code_hash block_height block_hash raw_response
+  <chr>             <chr>        <chr>          <int> <chr>            <int> <chr>      <list>      
+1 sawsimeon.testnet 16999958035… 0                264 11111111…    227350669 pBMdeieJn… <named list>
+
+# Get all access keys
+near_get_access_keys("sawsimeon.testnet")
+# A tibble: 2 × 5
+  public_key                                       access_key   block_height block_hash raw_response
+  <chr>                                            <list>              <int> <chr>      <list>      
+1 ed25519:3UrY38puh6TfaEs4QTDLCvshckE5XGgsLNm6WBb… <named list>    227350765 4fLxH8wez… <named list>
+2 ed25519:4soD2KJ9cTn8ajZSCmbn37KJvWq27H7XHxrJSz6… <named list>    227350765 4fLxH8wez… <named list>
+
+near_network_status()
+# A tibble: 1 × 8
+  chain_id latest_block_height latest_block_hash         syncing version protocol_version validators
+  <chr>                  <int> <chr>                     <lgl>   <chr>              <int> <list>    
+1 testnet            227350841 4du3GRMcCZJWVr4C5bZpZ7X3… FALSE   2.10.2                82 <list>    
+# ℹ 1 more variable: raw_response <list>
+
+near_get_validators()
+# A tibble: 36 × 13
+   account_id    public_key stake_yocto stake_near is_slashed shards blocks_produced blocks_expected
+   <chr>         <chr>      <chr>            <dbl> <lgl>      <list>           <int>           <int>
+ 1 node1         ed25519:B… 1060330659… 106033066. FALSE      <list>            6458            6458
+ 2 node2         ed25519:7… 9133714949…  91337150. FALSE      <list>            5413            5413
+ 3 kiln.pool.f8… ed25519:B… 8855238336…  88552383. FALSE      <list>            5276            5276
+ 4 node3         ed25519:J… 8357287174…  83572872. FALSE      <list>            5132            5132
+ 5 node0         ed25519:F… 7788726430…  77887264. FALSE      <list>            4616            4616
+ 6 aurora.pool.… ed25519:9… 2163384481…  21633845. FALSE      <list>            1352            1352
+ 7 01node.pool.… ed25519:3… 1844932878…  18449329. FALSE      <list>            1074            1074
+ 8 stakely_v2.p… ed25519:7… 1288718663…  12887187. FALSE      <list>             798             798
+ 9 legends.pool… ed25519:A… 1076379261…  10763793. FALSE      <list>             610             610
+10 chorusone.po… ed25519:3… 5995233509…   5995234. FALSE      <list>             394             394
+# ℹ 26 more rows
+# ℹ 5 more variables: chunks_produced <int>, chunks_expected <int>, uptime_pct <dbl>,
+#   epoch_height <int>, raw_response <list>
+# ℹ Use `print(n = ...)` to see more rows
+
+# Use near_broadcast_tx function
+tx_hash <- "6CzRJwPqcAufsTztarbtG3wbAzeV6XRGVQvmSDQWvdXo"
+sender  <- "sawsimeon.testnet"
+result <- near_get_transaction_status(tx_hash = tx_hash, sender_account_id = sender)
+result
+# A tibble: 1 × 5
+  hash                                       status       transaction  receipts_outcome raw_response
+  <chr>                                      <list>       <list>       <list>           <list>      
+1 6CzRJwPqcAufsTztarbtG3wbAzeV6XRGVQvmSDQWv… <named list> <named list> <list [3]>       <named list>
+
+
+```
+
+
+
+
+## Usage (Mainnet)
 
 ```r
 library(nearjsonrpc)
