@@ -1,87 +1,81 @@
 #' Broadcast a Signed Transaction to the NEAR Network
 #'
-#' Sends a pre-signed transaction (in base64 format) to the NEAR blockchain using
-#' the modern `send_tx` JSON-RPC method (replaces the deprecated `broadcast_tx_async/commit`).
+#' Sends a pre-signed transaction (base64-encoded) using the `send_tx` RPC method.
+#' Supports different wait levels from instant hash to full finality.
 #'
-#' @param signed_tx_base64 Character scalar. A fully signed transaction encoded as base64.
-#'   Typically created using `nearapi` or `near-cli` with `near transaction sign ...`.
-#' @param wait_until Character scalar controlling how long the node waits before returning.
-#'   Valid options:
-#'   - `"NONE"` – returns immediately with only the transaction hash
-#'   - `"INCLUDED"` – waits until included in a block
-#'   - `"INCLUDED_FINAL"` – waits until included in a finalized block
-#'   - `"EXECUTED_OPTIMISTIC"` – waits until execution (default, recommended)
-#'   - `"FINAL"` – waits until finality (strongest guarantee)
+#' @param signed_tx_base64 Character scalar. Base64-encoded signed transaction.
+#'   Generate with `near-cli` or near-api-js.
+#' @param wait_until How long to wait for outcome:
+#'   - `"NONE"` — return hash immediately
+#'   - `"INCLUDED"` — wait for block inclusion
+#'   - `"INCLUDED_FINAL"` — wait for finalization
+#'   - `"EXECUTED_OPTIMISTIC"` — wait for execution (default)
+#'   - `"FINAL"` — wait for final outcome (safest)
 #'
-#' @return A tibble with one row containing:
-#'   - `hash`: transaction hash (character)
-#'   - `status`: execution outcome (list-column)
-#'   - `transaction`: original transaction object (list-column)
-#'   - `receipts`: array of receipt outcomes (list-column)
-#'   - `raw`: full raw JSON response (list-column, useful for debugging)
-#'
-#'   If `wait_until = "NONE"`, only `hash` is returned.
+#' @return tibble with hash, status, receipts, and raw response.
 #'
 #' @export
 #'
 #' @examples
 #' \dontrun{
-#' # 1. Real example using near-cli generated signed tx (testnet)
-#' signed_tx <- "aGVsbG8gd29ybGQ..."  # your actual base64 string from near-cli
+#' # === SAFE TESTNET EXAMPLE USING sawsimeon.testnet ===
+#'
+#' # 1. Generate signed transaction with near-cli (harmless view call)
+#' # Run in terminal:
+#' # near call wrap.testnet ft_metadata '{}' --accountId sawsimeon.testnet --signWithOfflineKeyPair
+#'
+#' # near-cli will output a base64 string like:
+#' tx_hash <- "6CzRJwPqcAufsTztarbtG3wbAzeV6XRGVQvmSDQWvdXo"
 #'
 #' near_set_endpoint("testnet")
-#'
-#' # Quick fire-and-forget
-#' near_broadcast_tx(signed_tx, wait_until = "NONE")
-#' #> # A tibble: 1 × 1
-#' #>   hash
-#' #>   <chr>
-#' #> 1 Cj3k...examplehash
-#'
-#' # Wait for execution (recommended for most apps)
-#' result <- near_broadcast_tx(signed_tx, wait_until = "EXECUTED_OPTIMISTIC")
+#' result <- near_get_transaction_status(tx_hash = tx_hash, sender_account_id = sender, wait_until = "FINAL")
 #' result
-#' result$status[[1]]$SuccessValue  # view return value if function call
-#'
-#' # Wait for finality (for critical operations)
-#' final <- near_broadcast_tx(signed_tx, wait_until = "FINAL")
-#' final$receipts
 #' }
 #'
 #' @seealso
-#' \url{https://docs.near.org/api/rpc/transactions#send-transaction-wait-until}
 #' \url{https://docs.near.org/tools/near-cli#sign-transaction}
-#' [near_get_transaction_status()] – to poll a transaction later
+#' [near_get_transaction_status()] – poll later
 #'
 near_broadcast_tx <- function(
     signed_tx_base64,
     wait_until = c("EXECUTED_OPTIMISTIC", "NONE", "INCLUDED", "INCLUDED_FINAL", "FINAL")
 ) {
-  # Input validation
   if (missing(signed_tx_base64) || !is.character(signed_tx_base64) || length(signed_tx_base64) != 1 || !nzchar(signed_tx_base64)) {
-    rlang::abort("`signed_tx_base64` must be a non-empty character scalar containing a valid base64 string")
+    rlang::abort("`signed_tx_base64` must be a non-empty base64 string")
   }
 
   wait_until <- match.arg(wait_until)
 
-  params <- list(
-    signed_tx_base64 = signed_tx_base64,
-    wait_until       = wait_until
+  payload <- list(
+    jsonrpc = "2.0",
+    id = "nearjsonrpc",
+    method = "send_tx",
+    params = list(
+      signed_tx_base64 = signed_tx_base64,
+      wait_until       = wait_until
+    )
   )
 
-  resp <- near_rpc("send_tx", params = params)
+  endpoint <- getOption("nearjsonrpc.endpoint", "https://rpc.testnet.near.org")
 
-  # Case 1: wait_until = "NONE" → node returns just the hash as string
-  if (is.character(resp) && length(resp) == 1) {
-    return(tibble::tibble(hash = resp))
+  resp <- httr2::request(endpoint) %>%
+    httr2::req_headers("Content-Type" = "application/json") %>%
+    httr2::req_body_json(payload) %>%
+    httr2::req_perform()
+
+  out <- httr2::resp_body_json(resp)
+
+  # "NONE" returns just the hash as string
+  if (is.character(out) && length(out) == 1) {
+    return(tibble::tibble(hash = out))
   }
 
-  # Case 2: Full result object
+  # Full result
   tibble::tibble(
-    hash         = resp$transaction_hash %||% resp$transaction?.hash %||% NA_character_,
-    status       = list(resp$status %||% list()),
-    transaction  = list(resp$transaction %||% list()),
-    receipts     = list(resp$receipts %||% list()),
-    raw_response = list(resp)
+    hash           = out$transaction_hash %||% NA_character_,
+    status         = list(out$status %||% list()),
+    transaction    = list(out$transaction %||% list()),
+    receipts       = list(out$receipts %||% list()),
+    raw_response   = list(out)
   )
 }
