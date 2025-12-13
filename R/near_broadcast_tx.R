@@ -1,5 +1,3 @@
-# R/near_broadcast_tx.R
-
 #' Broadcast a Signed Transaction to the NEAR Network
 #'
 #' Sends a pre-signed transaction using the `send_tx` RPC method.
@@ -29,20 +27,18 @@
 #' \dontrun{
 #' # === SAFE TESTNET EXAMPLE USING sawsimeon.testnet ===
 #'
-#' # 1. Generate a harmless signed transaction (view call)
-#' # Run in terminal:
+#' # 1. Generate a harmless signed transaction (view call) using near-cli:
 #' # near call wrap.testnet ft_metadata '{}' \
 #' #   --accountId sawsimeon.testnet \
 #' #   --signWithOfflineKeyPair
 #'
-#' # near-cli will print a long base64 string — copy it
-#' signed_tx_b64 <- "YOUR_BASE64_STRING_HERE"
+#' # Copy the long base64 string printed by near-cli
+#' signed_tx_b64 <- "YOUR_BASE64_STRING_FROM_NEAR_CLI"
 #'
 #' near_set_endpoint("testnet")
 #'
 #' # Broadcast and get only hash (fast)
 #' near_broadcast_tx(signed_tx_b64, wait_until = "NONE")
-#' # Returns tibble with just the hash
 #'
 #' # Wait for full execution and outcome
 #' result <- near_broadcast_tx(signed_tx_b64, wait_until = "EXECUTED_OPTIMISTIC")
@@ -93,7 +89,7 @@ near_broadcast_tx <- function(
     return(tibble::tibble(hash = out))
   }
 
-  # Full result (all other wait_until values)
+  # Full result
   tibble::tibble(
     hash           = out$transaction$hash %||% out$transaction_hash %||% NA_character_,
     status         = list(out$status %||% list()),
