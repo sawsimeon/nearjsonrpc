@@ -134,100 +134,190 @@
 </h2>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Install from CRAN (when available)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"nearjsonrpc"</span><span class="op">)</span></span>
+<span><span class="co"># install.packages("nearjsonrpc")</span></span>
 <span></span>
 <span><span class="co"># Or the development version from GitHub</span></span>
 <span><span class="co"># install.packages("remotes")</span></span>
 <span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"sawsimeon/nearjsonrpc"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a>
+<h2 id="warning-first">Warning First<a class="anchor" aria-label="anchor" href="#warning-first"></a>
 </h2>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">library</span>(nearjsonrpc)</span>
-<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
-<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="fu">library</span>(purrr)</span>
-<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a></span>
-<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="co"># Use mainnet (or "testnet", "betanet")</span></span>
-<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a><span class="fu">near_set_endpoint</span>(<span class="st">"mainnet"</span>)</span>
-<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a>✔ NEAR RPC endpoint set to https<span class="sc">:</span><span class="er">//</span>rpc.mainnet.near.org</span>
-<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a></span>
-<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a><span class="co"># Get account balance and details</span></span>
-<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a><span class="fu">near_query_account</span>(<span class="st">"vitalik.near"</span>)</span>
-<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a><span class="co"># # A tibble: 1 × 8</span></span>
-<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a><span class="co">#   account_id   amount            locked storage_usage code_hash   block_height block_hash  raw_response</span></span>
-<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a><span class="co">#   &lt;chr&gt;        &lt;chr&gt;             &lt;chr&gt;          &lt;int&gt; &lt;chr&gt;              &lt;int&gt; &lt;chr&gt;       &lt;list&gt;      </span></span>
-<span id="cb2-14"><a href="#cb2-14" tabindex="-1"></a><span class="co"># 1 vitalik.near 5463293519585…    0           358058 55E7imni…      175996396 ECbLMFUSC… &lt;named list&gt;</span></span>
-<span id="cb2-15"><a href="#cb2-15" tabindex="-1"></a></span>
-<span id="cb2-16"><a href="#cb2-16" tabindex="-1"></a><span class="co"># List all access keys</span></span>
-<span id="cb2-17"><a href="#cb2-17" tabindex="-1"></a><span class="fu">near_get_access_keys</span>(<span class="st">"vitalik.near"</span>)</span>
-<span id="cb2-18"><a href="#cb2-18" tabindex="-1"></a><span class="co"># # A tibble: 7 × 5</span></span>
-<span id="cb2-19"><a href="#cb2-19" tabindex="-1"></a><span class="co">#   public_key                                       access_key   block_height block_hash raw_response</span></span>
-<span id="cb2-20"><a href="#cb2-20" tabindex="-1"></a><span class="co">#   &lt;chr&gt;                                            &lt;list&gt;              &lt;int&gt; &lt;chr&gt;      &lt;list&gt;      </span></span>
-<span id="cb2-21"><a href="#cb2-21" tabindex="-1"></a><span class="co"># 1 ed25519:5a4CCWCJrnMGxSVtjMpxx3qUZ57qH9Tn1Ed8tKY… &lt;named list&gt;    175997459 9JDmQw9m3… &lt;named list&gt;</span></span>
-<span id="cb2-22"><a href="#cb2-22" tabindex="-1"></a><span class="co"># 2 ed25519:6EBwyCYEjH1VsjJSUQo6jfH9yvowJ73bdzy9tAG… &lt;named list&gt;    175997459 9JDmQw9m3… &lt;named list&gt;</span></span>
-<span id="cb2-23"><a href="#cb2-23" tabindex="-1"></a><span class="co"># 3 ed25519:77oj7oJGG3AoeRaKaAFoPdtZhxeDN3nDwAP3yC8… &lt;named list&gt;    175997459 9JDmQw9m3… &lt;named list&gt;</span></span>
-<span id="cb2-24"><a href="#cb2-24" tabindex="-1"></a><span class="co"># 4 ed25519:7CH3JEY5abPhVcdPQxg8FmNnnHVF6E82tMzgFvo… &lt;named list&gt;    175997459 9JDmQw9m3… &lt;named list&gt;</span></span>
-<span id="cb2-25"><a href="#cb2-25" tabindex="-1"></a><span class="co"># 5 ed25519:9ePBRZ3W1RpUKsaEripj55jiiREaoJG2Jn3UTBo… &lt;named list&gt;    175997459 9JDmQw9m3… &lt;named list&gt;</span></span>
-<span id="cb2-26"><a href="#cb2-26" tabindex="-1"></a><span class="co"># 6 ed25519:Dr9NjCcEMvXEjECaJ9thavk8FQTnhLCgvC4vaft… &lt;named list&gt;    175997459 9JDmQw9m3… &lt;named list&gt;</span></span>
-<span id="cb2-27"><a href="#cb2-27" tabindex="-1"></a><span class="co"># 7 ed25519:DyijRtwLRrSysLAgEAn5fdAfMdfYmSZez5HCLfh… &lt;named list&gt;    175997459 9JDmQw9m3… &lt;named list&gt;</span></span>
-<span id="cb2-28"><a href="#cb2-28" tabindex="-1"></a></span>
-<span id="cb2-29"><a href="#cb2-29" tabindex="-1"></a><span class="co"># Network status + top validators</span></span>
-<span id="cb2-30"><a href="#cb2-30" tabindex="-1"></a>status <span class="ot">&lt;-</span> <span class="fu">near_network_status</span>()</span>
-<span id="cb2-31"><a href="#cb2-31" tabindex="-1"></a></span>
-<span id="cb2-32"><a href="#cb2-32" tabindex="-1"></a>validators_vec <span class="ot">&lt;-</span> <span class="fu">map_chr</span>(status<span class="sc">$</span>validators[[<span class="dv">1</span>]], <span class="st">"account_id"</span>)</span>
-<span id="cb2-33"><a href="#cb2-33" tabindex="-1"></a></span>
-<span id="cb2-34"><a href="#cb2-34" tabindex="-1"></a>validators_vec</span>
-<span id="cb2-35"><a href="#cb2-35" tabindex="-1"></a><span class="co">#  [1] "figment.poolv1.near"                          "bisontrails2.poolv1.near" </span></span>
-<span id="cb2-36"><a href="#cb2-36" tabindex="-1"></a><span class="co">#  [3] "epochrunner.poolv1.near"                      "astro-stakers.poolv1.near"</span></span>
-<span id="cb2-37"><a href="#cb2-37" tabindex="-1"></a><span class="co">#  [5] "zavodil.poolv1.near"                          "binancenode1.poolv1.near"</span></span>
-<span id="cb2-38"><a href="#cb2-38" tabindex="-1"></a><span class="co">#  [7] "bitwise_1.poolv1.near"                        "sumerian.poolv1.near"</span></span>
-<span id="cb2-39"><a href="#cb2-39" tabindex="-1"></a><span class="co">#  [9] "kiln-1.poolv1.near"                           "ledgerbyfigment.poolv1.near"</span></span>
-<span id="cb2-40"><a href="#cb2-40" tabindex="-1"></a><span class="co"># [11] "sofarsonear.poolv1.near"                      "twinstake.poolv1.near"</span></span>
-<span id="cb2-41"><a href="#cb2-41" tabindex="-1"></a><span class="co"># [13] "liver.pool.near"                              "p2p-org.poolv1.near"</span></span>
-<span id="cb2-42"><a href="#cb2-42" tabindex="-1"></a><span class="co"># [15] "galaxydigital.poolv1.near"                    "epic.poolv1.near"</span></span>
-<span id="cb2-43"><a href="#cb2-43" tabindex="-1"></a><span class="co"># [17] "nearvana.poolv1.near"                         "aca87218e28c41f5a693dee3dff12238.poolv1.near"</span></span>
-<span id="cb2-44"><a href="#cb2-44" tabindex="-1"></a><span class="co"># [19] "foundry.poolv1.near"                          "nearone.pool.near"</span></span>
-<span id="cb2-45"><a href="#cb2-45" tabindex="-1"></a><span class="co"># [21] "marcus.pool.near"                             "flipside.pool.near"</span></span>
-<span id="cb2-46"><a href="#cb2-46" tabindex="-1"></a><span class="co"># [23] "stake1.poolv1.near"                           "macrodatarefinement.poolv1.near"</span></span>
-<span id="cb2-47"><a href="#cb2-47" tabindex="-1"></a><span class="co"># [25] "dragonfly.poolv1.near"                        "d1.poolv1.near"</span></span>
-<span id="cb2-48"><a href="#cb2-48" tabindex="-1"></a><span class="co"># [27] "rekt.poolv1.near"                             "here.poolv1.near"</span></span>
-<span id="cb2-49"><a href="#cb2-49" tabindex="-1"></a><span class="co"># [29] "bisontrails.poolv1.near"                      "sweat_validator.poolv1.near"</span></span>
-<span id="cb2-50"><a href="#cb2-50" tabindex="-1"></a><span class="co"># [31] "nansen.poolv1.near"                           "pandora.poolv1.near"</span></span>
-<span id="cb2-51"><a href="#cb2-51" tabindex="-1"></a><span class="co"># [33] "republic.poolv1.near"                         "allnodes.poolv1.near"</span></span>
-<span id="cb2-52"><a href="#cb2-52" tabindex="-1"></a><span class="co"># [35] "northernlights.poolv1.near"                   "x.poolv1.near"</span></span>
-<span id="cb2-53"><a href="#cb2-53" tabindex="-1"></a><span class="co"># [37] "nearfans.poolv1.near"                         "stakin.poolv1.near"</span></span>
-<span id="cb2-54"><a href="#cb2-54" tabindex="-1"></a><span class="co"># [39] "bodhiventures.poolv1.near"                    "everstake.poolv1.near"</span></span>
-<span id="cb2-55"><a href="#cb2-55" tabindex="-1"></a><span class="co"># [41] "aurora.pool.near"                             "blockdaemon.poolv1.near"</span></span>
-<span id="cb2-56"><a href="#cb2-56" tabindex="-1"></a><span class="co"># [43] "nodeasy.poolv1.near"                          "lux.poolv1.near"</span></span>
-<span id="cb2-57"><a href="#cb2-57" tabindex="-1"></a><span class="co"># [45] "okx-earn.poolv1.near"                         "falcon.pool.near"</span></span>
-<span id="cb2-58"><a href="#cb2-58" tabindex="-1"></a><span class="co"># [47] "kiln.poolv1.near"                             "chorusone.poolv1.near"</span></span>
-<span id="cb2-59"><a href="#cb2-59" tabindex="-1"></a><span class="co"># [49] "buildlinks.poolv1.near"                       "erm.poolv1.near"</span></span>
-<span id="cb2-60"><a href="#cb2-60" tabindex="-1"></a><span class="co"># [51] "bitcoinsuisse.poolv1.near"                    "anonymous.poolv1.near"</span></span>
-<span id="cb2-61"><a href="#cb2-61" tabindex="-1"></a><span class="co"># [53] "baziliknear.poolv1.near"                      "npro.poolv1.near"</span></span>
-<span id="cb2-62"><a href="#cb2-62" tabindex="-1"></a><span class="co"># [55] "luganodes.pool.near"                          "moonlet.poolv1.near"</span></span>
-<span id="cb2-63"><a href="#cb2-63" tabindex="-1"></a><span class="co"># [57] "dsrvlabs.poolv1.near"                         "trust-nodes.poolv1.near"</span></span>
-<span id="cb2-64"><a href="#cb2-64" tabindex="-1"></a><span class="co"># [59] "cryptium.poolv1.near"                         "openshards.poolv1.near"</span></span>
-<span id="cb2-65"><a href="#cb2-65" tabindex="-1"></a><span class="co"># [61] "near-prime-public.poolv1.near"                "stakesabai.poolv1.near"</span></span>
-<span id="cb2-66"><a href="#cb2-66" tabindex="-1"></a><span class="co"># [63] "meteor.poolv1.near"                           "lunanova.poolv1.near"</span></span>
-<span id="cb2-67"><a href="#cb2-67" tabindex="-1"></a><span class="co"># [65] "staked.poolv1.near"                           "masternode24.poolv1.near"</span></span>
-<span id="cb2-68"><a href="#cb2-68" tabindex="-1"></a><span class="co"># [67] "dexagon.poolv1.near"                          "stardust.poolv1.near"</span></span>
-<span id="cb2-69"><a href="#cb2-69" tabindex="-1"></a><span class="co"># [69] "northstakenear.poolv1.near"                   "polkachu.poolv1.near"</span></span>
-<span id="cb2-70"><a href="#cb2-70" tabindex="-1"></a><span class="co"># [71] "hb436_pool.poolv1.near"                       "qbit.poolv1.near"</span></span>
-<span id="cb2-71"><a href="#cb2-71" tabindex="-1"></a><span class="co"># [73] "smart-stake.poolv1.near"                      "autostake.poolv1.near"</span></span>
-<span id="cb2-72"><a href="#cb2-72" tabindex="-1"></a><span class="co"># [75] "pandateam.poolv1.near"                        "hapi.poolv1.near"</span></span>
-<span id="cb2-73"><a href="#cb2-73" tabindex="-1"></a><span class="co"># [77] "stakely_io.poolv1.near"                       "gtnode-0.poolv1.near"</span></span>
-<span id="cb2-74"><a href="#cb2-74" tabindex="-1"></a><span class="co"># [79] "brea.poolv1.near"                             "lavenderfive.poolv1.near"</span></span>
-<span id="cb2-75"><a href="#cb2-75" tabindex="-1"></a><span class="co"># [81] "staking4all.poolv1.near"                      "fresh.poolv1.near"</span></span>
-<span id="cb2-76"><a href="#cb2-76" tabindex="-1"></a><span class="co"># [83] "01node.poolv1.near"                           "colossus.poolv1.near"</span></span>
-<span id="cb2-77"><a href="#cb2-77" tabindex="-1"></a><span class="co"># [85] "avado.poolv1.near"                            "pairpoint.poolv1.near"</span></span>
-<span id="cb2-78"><a href="#cb2-78" tabindex="-1"></a><span class="co"># [87] "optimusvalidatornetwork.poolv1.near"          "sharpdarts.poolv1.near"</span></span>
-<span id="cb2-79"><a href="#cb2-79" tabindex="-1"></a><span class="co"># [89] "readylayerone_staking.poolv1.near"            "deutschetelekom.poolv1.near"</span></span>
-<span id="cb2-80"><a href="#cb2-80" tabindex="-1"></a><span class="co"># [91] "atomic-nodes.poolv1.near"                     "blackdragon.pool.near"</span></span>
-<span id="cb2-81"><a href="#cb2-81" tabindex="-1"></a><span class="co"># [93] "namdokmai.poolv1.near"                        "cryptogarik.poolv1.near"</span></span>
-<span id="cb2-82"><a href="#cb2-82" tabindex="-1"></a><span class="co"># [95] "near-prime.poolv1.near"                       "gfi-validator.poolv1.near"</span></span>
-<span id="cb2-83"><a href="#cb2-83" tabindex="-1"></a><span class="co"># [97] "lionstake.poolv1.near"                        "hashquark.poolv1.near"</span></span>
-<span id="cb2-84"><a href="#cb2-84" tabindex="-1"></a><span class="co"># [99] "pangdao.poolv1.near"                          "oe.poolv1.near"</span></span>
-<span id="cb2-85"><a href="#cb2-85" tabindex="-1"></a></span></code></pre></div>
+<p>DO NOT run real transactions on mainnet without fully understanding. Regarding the function <code><a href="reference/near_broadcast_tx.html">near_broadcast_tx()</a></code>, sending a real sign transaction on mainnet will: - Transfer real NEAR tokens - Call real contracts - Cost real gas - Be permanent and irreversible</p>
+<p>For testing <code><a href="reference/near_broadcast_tx.html">near_broadcast_tx()</a></code>, always use testnet first.</p>
+</div>
+<div class="section level2">
+<h2 id="get-testnet-near-free-faucet">Get Testnet Near (Free Faucet)<a class="anchor" aria-label="anchor" href="#get-testnet-near-free-faucet"></a>
+</h2>
+<p>To test functions that require transactions (like <code><a href="reference/near_broadcast_tx.html">near_broadcast_tx()</a></code>), you need test NEAR:</p>
+<ol style="list-style-type: decimal">
+<li>Create a testnet account at <a href="https://wallet.testnet.near.org/" class="external-link">wallet</a> (e.g. <code>yourname.testnet</code>)</li>
+<li>Fund it using the <a href="https://near-faucet.io/" class="external-link">faucet</a>.</li>
+<li>You are ready to sign and broadcast transactions.</li>
+</ol>
+</div>
+<div class="section level2">
+<h2 id="usage-testnet">Usage (Testnet)<a class="anchor" aria-label="anchor" href="#usage-testnet"></a>
+</h2>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/sawsimeon/nearjsonrpc" class="external-link">nearjsonrpc</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Switch to testnet for safe testing</span></span>
+<span><span class="fu"><a href="reference/near_set_endpoint.html">near_set_endpoint</a></span><span class="op">(</span><span class="st">"testnet"</span><span class="op">)</span></span>
+<span><span class="co"># ✔ NEAR RPC endpoint set to &lt;https://rpc.testnet.near.org&gt;</span></span>
+<span><span class="co"># Get account balance and details</span></span>
+<span><span class="fu"><a href="reference/near_query_account.html">near_query_account</a></span><span class="op">(</span><span class="st">"sawsimeon.testnet"</span><span class="op">)</span></span>
+<span><span class="co">#  A tibble: 1 × 8</span></span>
+<span><span class="co">#  account_id        amount       locked storage_usage code_hash block_height block_hash raw_response</span></span>
+<span><span class="co">#  &lt;chr&gt;             &lt;chr&gt;        &lt;chr&gt;          &lt;int&gt; &lt;chr&gt;            &lt;int&gt; &lt;chr&gt;      &lt;list&gt;      </span></span>
+<span><span class="co"># 1 sawsimeon.testnet 16999958035… 0                264 11111111…    227350669 pBMdeieJn… &lt;named list&gt;</span></span></code></pre></div>
+<div class="section level3">
+<h3 id="get-all-access-keys">Get all access keys<a class="anchor" aria-label="anchor" href="#get-all-access-keys"></a>
+</h3>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/near_get_access_keys.html">near_get_access_keys</a></span><span class="op">(</span><span class="st">"sawsimeon.testnet"</span><span class="op">)</span></span>
+<span><span class="co"># A tibble: 2 × 5</span></span>
+<span><span class="co">#  public_key                                       access_key   block_height block_hash raw_response</span></span>
+<span><span class="co">#  &lt;chr&gt;                                            &lt;list&gt;              &lt;int&gt; &lt;chr&gt;      &lt;list&gt;      </span></span>
+<span><span class="co"># 1 ed25519:3UrY38puh6TfaEs4QTDLCvshckE5XGgsLNm6WBb… &lt;named list&gt;    227350765 4fLxH8wez… &lt;named list&gt;</span></span>
+<span><span class="co"># 2 ed25519:4soD2KJ9cTn8ajZSCmbn37KJvWq27H7XHxrJSz6… &lt;named list&gt;    227350765 4fLxH8wez… &lt;named list&gt;</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="get-network-status">Get Network Status<a class="anchor" aria-label="anchor" href="#get-network-status"></a>
+</h3>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/near_network_status.html">near_network_status</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co"># A tibble: 1 × 8</span></span>
+<span><span class="co">#  chain_id latest_block_height latest_block_hash         syncing version protocol_version validators</span></span>
+<span><span class="co">#  &lt;chr&gt;                  &lt;int&gt; &lt;chr&gt;                     &lt;lgl&gt;   &lt;chr&gt;              &lt;int&gt; &lt;list&gt;    </span></span>
+<span><span class="co"># 1 testnet            227350841 4du3GRMcCZJWVr4C5bZpZ7X3… FALSE   2.10.2                82 &lt;list&gt;    </span></span>
+<span><span class="co">#  1 more variable: raw_response &lt;list&gt;</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="get-validators-info">Get Validators Info<a class="anchor" aria-label="anchor" href="#get-validators-info"></a>
+</h3>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="reference/near_get_validators.html">near_get_validators</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co"># A tibble: 36 × 13</span></span>
+<span><span class="co">#   account_id    public_key stake_yocto stake_near is_slashed shards blocks_produced blocks_expected</span></span>
+<span><span class="co">#   &lt;chr&gt;         &lt;chr&gt;      &lt;chr&gt;            &lt;dbl&gt; &lt;lgl&gt;      &lt;list&gt;           &lt;int&gt;           &lt;int&gt;</span></span>
+<span><span class="co"># 1 node1         ed25519:B… 1060330659… 106033066. FALSE      &lt;list&gt;            6458            6458</span></span>
+<span><span class="co"># 2 node2         ed25519:7… 9133714949…  91337150. FALSE      &lt;list&gt;            5413            5413</span></span>
+<span><span class="co"># 3 kiln.pool.f8… ed25519:B… 8855238336…  88552383. FALSE      &lt;list&gt;            5276            5276</span></span>
+<span><span class="co"># 4 node3         ed25519:J… 8357287174…  83572872. FALSE      &lt;list&gt;            5132            5132</span></span>
+<span><span class="co"># 5 node0         ed25519:F… 7788726430…  77887264. FALSE      &lt;list&gt;            4616            4616</span></span>
+<span><span class="co"># 6 aurora.pool.… ed25519:9… 2163384481…  21633845. FALSE      &lt;list&gt;            1352            1352</span></span>
+<span><span class="co"># 7 01node.pool.… ed25519:3… 1844932878…  18449329. FALSE      &lt;list&gt;            1074            1074</span></span>
+<span><span class="co"># 8 stakely_v2.p… ed25519:7… 1288718663…  12887187. FALSE      &lt;list&gt;             798             798</span></span>
+<span><span class="co"># 9 legends.pool… ed25519:A… 1076379261…  10763793. FALSE      &lt;list&gt;             610             610</span></span>
+<span><span class="co"># 10 chorusone.po… ed25519:3… 5995233509…   5995234. FALSE      &lt;list&gt;             394             394</span></span>
+<span><span class="co"># ℹ 26 more rows</span></span>
+<span><span class="co"># ℹ 5 more variables: chunks_produced &lt;int&gt;, chunks_expected &lt;int&gt;, uptime_pct &lt;dbl&gt;,</span></span>
+<span><span class="co">#   epoch_height &lt;int&gt;, raw_response &lt;list&gt;</span></span>
+<span><span class="co"># ℹ Use `print(n = ...)` to see more rows</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="use-near_broadcast_tx-function">Use near_broadcast_tx function<a class="anchor" aria-label="anchor" href="#use-near_broadcast_tx-function"></a>
+</h3>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">tx_hash</span> <span class="op">&lt;-</span> <span class="st">"6CzRJwPqcAufsTztarbtG3wbAzeV6XRGVQvmSDQWvdXo"</span></span>
+<span><span class="va">sender</span>  <span class="op">&lt;-</span> <span class="st">"sawsimeon.testnet"</span></span>
+<span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/near_get_transaction_status.html">near_get_transaction_status</a></span><span class="op">(</span>tx_hash <span class="op">=</span> <span class="va">tx_hash</span>, sender_account_id <span class="op">=</span> <span class="va">sender</span><span class="op">)</span></span>
+<span><span class="va">result</span></span>
+<span><span class="co"># A tibble: 1 × 5</span></span>
+<span><span class="co">#  hash                                       status       transaction  receipts_outcome raw_response</span></span>
+<span><span class="co">#  &lt;chr&gt;                                      &lt;list&gt;       &lt;list&gt;       &lt;list&gt;           &lt;list&gt;      </span></span>
+<span><span class="co"># 1 6CzRJwPqcAufsTztarbtG3wbAzeV6XRGVQvmSDQWv… &lt;named list&gt; &lt;named list&gt; &lt;list [3]&gt;       &lt;named list&gt;</span></span></code></pre></div>
+</div>
+</div>
+<div class="section level2">
+<h2 id="usage-mainnet">Usage (Mainnet)<a class="anchor" aria-label="anchor" href="#usage-mainnet"></a>
+</h2>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">library</span>(nearjsonrpc)</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a><span class="fu">library</span>(purrr)</span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a><span class="co"># Use mainnet (or "testnet", "betanet")</span></span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a><span class="fu">near_set_endpoint</span>(<span class="st">"mainnet"</span>)</span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a>✔ NEAR RPC endpoint set to https<span class="sc">:</span><span class="er">//</span>rpc.mainnet.near.org</span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a></span>
+<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a><span class="co"># Get account balance and details</span></span>
+<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a><span class="fu">near_query_account</span>(<span class="st">"vitalik.near"</span>)</span>
+<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a><span class="co"># # A tibble: 1 × 8</span></span>
+<span id="cb7-12"><a href="#cb7-12" tabindex="-1"></a><span class="co">#   account_id   amount            locked storage_usage code_hash   block_height block_hash  raw_response</span></span>
+<span id="cb7-13"><a href="#cb7-13" tabindex="-1"></a><span class="co">#   &lt;chr&gt;        &lt;chr&gt;             &lt;chr&gt;          &lt;int&gt; &lt;chr&gt;              &lt;int&gt; &lt;chr&gt;       &lt;list&gt;      </span></span>
+<span id="cb7-14"><a href="#cb7-14" tabindex="-1"></a><span class="co"># 1 vitalik.near 5463293519585…    0           358058 55E7imni…      175996396 ECbLMFUSC… &lt;named list&gt;</span></span>
+<span id="cb7-15"><a href="#cb7-15" tabindex="-1"></a></span>
+<span id="cb7-16"><a href="#cb7-16" tabindex="-1"></a><span class="co"># List all access keys</span></span>
+<span id="cb7-17"><a href="#cb7-17" tabindex="-1"></a><span class="fu">near_get_access_keys</span>(<span class="st">"vitalik.near"</span>)</span>
+<span id="cb7-18"><a href="#cb7-18" tabindex="-1"></a><span class="co"># # A tibble: 7 × 5</span></span>
+<span id="cb7-19"><a href="#cb7-19" tabindex="-1"></a><span class="co">#   public_key                                       access_key   block_height block_hash raw_response</span></span>
+<span id="cb7-20"><a href="#cb7-20" tabindex="-1"></a><span class="co">#   &lt;chr&gt;                                            &lt;list&gt;              &lt;int&gt; &lt;chr&gt;      &lt;list&gt;      </span></span>
+<span id="cb7-21"><a href="#cb7-21" tabindex="-1"></a><span class="co"># 1 ed25519:5a4CCWCJrnMGxSVtjMpxx3qUZ57qH9Tn1Ed8tKY… &lt;named list&gt;    175997459 9JDmQw9m3… &lt;named list&gt;</span></span>
+<span id="cb7-22"><a href="#cb7-22" tabindex="-1"></a><span class="co"># 2 ed25519:6EBwyCYEjH1VsjJSUQo6jfH9yvowJ73bdzy9tAG… &lt;named list&gt;    175997459 9JDmQw9m3… &lt;named list&gt;</span></span>
+<span id="cb7-23"><a href="#cb7-23" tabindex="-1"></a><span class="co"># 3 ed25519:77oj7oJGG3AoeRaKaAFoPdtZhxeDN3nDwAP3yC8… &lt;named list&gt;    175997459 9JDmQw9m3… &lt;named list&gt;</span></span>
+<span id="cb7-24"><a href="#cb7-24" tabindex="-1"></a><span class="co"># 4 ed25519:7CH3JEY5abPhVcdPQxg8FmNnnHVF6E82tMzgFvo… &lt;named list&gt;    175997459 9JDmQw9m3… &lt;named list&gt;</span></span>
+<span id="cb7-25"><a href="#cb7-25" tabindex="-1"></a><span class="co"># 5 ed25519:9ePBRZ3W1RpUKsaEripj55jiiREaoJG2Jn3UTBo… &lt;named list&gt;    175997459 9JDmQw9m3… &lt;named list&gt;</span></span>
+<span id="cb7-26"><a href="#cb7-26" tabindex="-1"></a><span class="co"># 6 ed25519:Dr9NjCcEMvXEjECaJ9thavk8FQTnhLCgvC4vaft… &lt;named list&gt;    175997459 9JDmQw9m3… &lt;named list&gt;</span></span>
+<span id="cb7-27"><a href="#cb7-27" tabindex="-1"></a><span class="co"># 7 ed25519:DyijRtwLRrSysLAgEAn5fdAfMdfYmSZez5HCLfh… &lt;named list&gt;    175997459 9JDmQw9m3… &lt;named list&gt;</span></span>
+<span id="cb7-28"><a href="#cb7-28" tabindex="-1"></a></span>
+<span id="cb7-29"><a href="#cb7-29" tabindex="-1"></a><span class="co"># Network status + top validators</span></span>
+<span id="cb7-30"><a href="#cb7-30" tabindex="-1"></a>status <span class="ot">&lt;-</span> <span class="fu">near_network_status</span>()</span>
+<span id="cb7-31"><a href="#cb7-31" tabindex="-1"></a></span>
+<span id="cb7-32"><a href="#cb7-32" tabindex="-1"></a>validators_vec <span class="ot">&lt;-</span> <span class="fu">map_chr</span>(status<span class="sc">$</span>validators[[<span class="dv">1</span>]], <span class="st">"account_id"</span>)</span>
+<span id="cb7-33"><a href="#cb7-33" tabindex="-1"></a></span>
+<span id="cb7-34"><a href="#cb7-34" tabindex="-1"></a>validators_vec</span>
+<span id="cb7-35"><a href="#cb7-35" tabindex="-1"></a><span class="co">#  [1] "figment.poolv1.near"                          "bisontrails2.poolv1.near" </span></span>
+<span id="cb7-36"><a href="#cb7-36" tabindex="-1"></a><span class="co">#  [3] "epochrunner.poolv1.near"                      "astro-stakers.poolv1.near"</span></span>
+<span id="cb7-37"><a href="#cb7-37" tabindex="-1"></a><span class="co">#  [5] "zavodil.poolv1.near"                          "binancenode1.poolv1.near"</span></span>
+<span id="cb7-38"><a href="#cb7-38" tabindex="-1"></a><span class="co">#  [7] "bitwise_1.poolv1.near"                        "sumerian.poolv1.near"</span></span>
+<span id="cb7-39"><a href="#cb7-39" tabindex="-1"></a><span class="co">#  [9] "kiln-1.poolv1.near"                           "ledgerbyfigment.poolv1.near"</span></span>
+<span id="cb7-40"><a href="#cb7-40" tabindex="-1"></a><span class="co"># [11] "sofarsonear.poolv1.near"                      "twinstake.poolv1.near"</span></span>
+<span id="cb7-41"><a href="#cb7-41" tabindex="-1"></a><span class="co"># [13] "liver.pool.near"                              "p2p-org.poolv1.near"</span></span>
+<span id="cb7-42"><a href="#cb7-42" tabindex="-1"></a><span class="co"># [15] "galaxydigital.poolv1.near"                    "epic.poolv1.near"</span></span>
+<span id="cb7-43"><a href="#cb7-43" tabindex="-1"></a><span class="co"># [17] "nearvana.poolv1.near"                         "aca87218e28c41f5a693dee3dff12238.poolv1.near"</span></span>
+<span id="cb7-44"><a href="#cb7-44" tabindex="-1"></a><span class="co"># [19] "foundry.poolv1.near"                          "nearone.pool.near"</span></span>
+<span id="cb7-45"><a href="#cb7-45" tabindex="-1"></a><span class="co"># [21] "marcus.pool.near"                             "flipside.pool.near"</span></span>
+<span id="cb7-46"><a href="#cb7-46" tabindex="-1"></a><span class="co"># [23] "stake1.poolv1.near"                           "macrodatarefinement.poolv1.near"</span></span>
+<span id="cb7-47"><a href="#cb7-47" tabindex="-1"></a><span class="co"># [25] "dragonfly.poolv1.near"                        "d1.poolv1.near"</span></span>
+<span id="cb7-48"><a href="#cb7-48" tabindex="-1"></a><span class="co"># [27] "rekt.poolv1.near"                             "here.poolv1.near"</span></span>
+<span id="cb7-49"><a href="#cb7-49" tabindex="-1"></a><span class="co"># [29] "bisontrails.poolv1.near"                      "sweat_validator.poolv1.near"</span></span>
+<span id="cb7-50"><a href="#cb7-50" tabindex="-1"></a><span class="co"># [31] "nansen.poolv1.near"                           "pandora.poolv1.near"</span></span>
+<span id="cb7-51"><a href="#cb7-51" tabindex="-1"></a><span class="co"># [33] "republic.poolv1.near"                         "allnodes.poolv1.near"</span></span>
+<span id="cb7-52"><a href="#cb7-52" tabindex="-1"></a><span class="co"># [35] "northernlights.poolv1.near"                   "x.poolv1.near"</span></span>
+<span id="cb7-53"><a href="#cb7-53" tabindex="-1"></a><span class="co"># [37] "nearfans.poolv1.near"                         "stakin.poolv1.near"</span></span>
+<span id="cb7-54"><a href="#cb7-54" tabindex="-1"></a><span class="co"># [39] "bodhiventures.poolv1.near"                    "everstake.poolv1.near"</span></span>
+<span id="cb7-55"><a href="#cb7-55" tabindex="-1"></a><span class="co"># [41] "aurora.pool.near"                             "blockdaemon.poolv1.near"</span></span>
+<span id="cb7-56"><a href="#cb7-56" tabindex="-1"></a><span class="co"># [43] "nodeasy.poolv1.near"                          "lux.poolv1.near"</span></span>
+<span id="cb7-57"><a href="#cb7-57" tabindex="-1"></a><span class="co"># [45] "okx-earn.poolv1.near"                         "falcon.pool.near"</span></span>
+<span id="cb7-58"><a href="#cb7-58" tabindex="-1"></a><span class="co"># [47] "kiln.poolv1.near"                             "chorusone.poolv1.near"</span></span>
+<span id="cb7-59"><a href="#cb7-59" tabindex="-1"></a><span class="co"># [49] "buildlinks.poolv1.near"                       "erm.poolv1.near"</span></span>
+<span id="cb7-60"><a href="#cb7-60" tabindex="-1"></a><span class="co"># [51] "bitcoinsuisse.poolv1.near"                    "anonymous.poolv1.near"</span></span>
+<span id="cb7-61"><a href="#cb7-61" tabindex="-1"></a><span class="co"># [53] "baziliknear.poolv1.near"                      "npro.poolv1.near"</span></span>
+<span id="cb7-62"><a href="#cb7-62" tabindex="-1"></a><span class="co"># [55] "luganodes.pool.near"                          "moonlet.poolv1.near"</span></span>
+<span id="cb7-63"><a href="#cb7-63" tabindex="-1"></a><span class="co"># [57] "dsrvlabs.poolv1.near"                         "trust-nodes.poolv1.near"</span></span>
+<span id="cb7-64"><a href="#cb7-64" tabindex="-1"></a><span class="co"># [59] "cryptium.poolv1.near"                         "openshards.poolv1.near"</span></span>
+<span id="cb7-65"><a href="#cb7-65" tabindex="-1"></a><span class="co"># [61] "near-prime-public.poolv1.near"                "stakesabai.poolv1.near"</span></span>
+<span id="cb7-66"><a href="#cb7-66" tabindex="-1"></a><span class="co"># [63] "meteor.poolv1.near"                           "lunanova.poolv1.near"</span></span>
+<span id="cb7-67"><a href="#cb7-67" tabindex="-1"></a><span class="co"># [65] "staked.poolv1.near"                           "masternode24.poolv1.near"</span></span>
+<span id="cb7-68"><a href="#cb7-68" tabindex="-1"></a><span class="co"># [67] "dexagon.poolv1.near"                          "stardust.poolv1.near"</span></span>
+<span id="cb7-69"><a href="#cb7-69" tabindex="-1"></a><span class="co"># [69] "northstakenear.poolv1.near"                   "polkachu.poolv1.near"</span></span>
+<span id="cb7-70"><a href="#cb7-70" tabindex="-1"></a><span class="co"># [71] "hb436_pool.poolv1.near"                       "qbit.poolv1.near"</span></span>
+<span id="cb7-71"><a href="#cb7-71" tabindex="-1"></a><span class="co"># [73] "smart-stake.poolv1.near"                      "autostake.poolv1.near"</span></span>
+<span id="cb7-72"><a href="#cb7-72" tabindex="-1"></a><span class="co"># [75] "pandateam.poolv1.near"                        "hapi.poolv1.near"</span></span>
+<span id="cb7-73"><a href="#cb7-73" tabindex="-1"></a><span class="co"># [77] "stakely_io.poolv1.near"                       "gtnode-0.poolv1.near"</span></span>
+<span id="cb7-74"><a href="#cb7-74" tabindex="-1"></a><span class="co"># [79] "brea.poolv1.near"                             "lavenderfive.poolv1.near"</span></span>
+<span id="cb7-75"><a href="#cb7-75" tabindex="-1"></a><span class="co"># [81] "staking4all.poolv1.near"                      "fresh.poolv1.near"</span></span>
+<span id="cb7-76"><a href="#cb7-76" tabindex="-1"></a><span class="co"># [83] "01node.poolv1.near"                           "colossus.poolv1.near"</span></span>
+<span id="cb7-77"><a href="#cb7-77" tabindex="-1"></a><span class="co"># [85] "avado.poolv1.near"                            "pairpoint.poolv1.near"</span></span>
+<span id="cb7-78"><a href="#cb7-78" tabindex="-1"></a><span class="co"># [87] "optimusvalidatornetwork.poolv1.near"          "sharpdarts.poolv1.near"</span></span>
+<span id="cb7-79"><a href="#cb7-79" tabindex="-1"></a><span class="co"># [89] "readylayerone_staking.poolv1.near"            "deutschetelekom.poolv1.near"</span></span>
+<span id="cb7-80"><a href="#cb7-80" tabindex="-1"></a><span class="co"># [91] "atomic-nodes.poolv1.near"                     "blackdragon.pool.near"</span></span>
+<span id="cb7-81"><a href="#cb7-81" tabindex="-1"></a><span class="co"># [93] "namdokmai.poolv1.near"                        "cryptogarik.poolv1.near"</span></span>
+<span id="cb7-82"><a href="#cb7-82" tabindex="-1"></a><span class="co"># [95] "near-prime.poolv1.near"                       "gfi-validator.poolv1.near"</span></span>
+<span id="cb7-83"><a href="#cb7-83" tabindex="-1"></a><span class="co"># [97] "lionstake.poolv1.near"                        "hashquark.poolv1.near"</span></span>
+<span id="cb7-84"><a href="#cb7-84" tabindex="-1"></a><span class="co"># [99] "pangdao.poolv1.near"                          "oe.poolv1.near"</span></span>
+<span id="cb7-85"><a href="#cb7-85" tabindex="-1"></a></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="use-cases">Use Cases<a class="anchor" aria-label="anchor" href="#use-cases"></a>
