@@ -46,7 +46,7 @@ remotes::install_github("sawsimeon/nearjsonrpc")
 ```
 ## Warning First
 
-DO NOT run real transactions on mainnet without fully understanding. Regarding the function `near_broadcast_tx()`, sending a real sign transaction
+DO NOT run real transactions on mainnet without careful consideration. Regarding the function `near_broadcast_tx()`, sending a real sign transaction
 on mainnet will:
 
 - Transfer real NEAR tokens
