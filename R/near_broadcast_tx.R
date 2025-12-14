@@ -25,28 +25,27 @@
 #'
 #' @examples
 #' \dontrun{
-#' # === SAFE TESTNET EXAMPLE USING sawsimeon.testnet ===
 #'
-#' # 1. Generate a harmless signed transaction (view call) using near-cli:
+#' # Generate a signed transaction using near-cli (harmless view call):
+#' # In your terminal run:
 #' # near call wrap.testnet ft_metadata '{}' \
 #' #   --accountId sawsimeon.testnet \
 #' #   --signWithOfflineKeyPair
 #'
-#' # Copy the long base64 string printed by near-cli
+#' # Copy the printed base64 string and paste below:
 #' signed_tx_b64 <- "YOUR_BASE64_STRING_FROM_NEAR_CLI"
 #'
 #' near_set_endpoint("testnet")
 #'
-#' # Broadcast and get only hash (fast)
+#' # Get only the hash (fast)
 #' near_broadcast_tx(signed_tx_b64, wait_until = "NONE")
 #'
-#' # Wait for full execution and outcome
+#' # Wait for full execution
 #' result <- near_broadcast_tx(signed_tx_b64, wait_until = "EXECUTED_OPTIMISTIC")
-#' result
 #' result$hash
-#' result$status[[1]]$SuccessValue  # if function call returned value
+#' result$status[[1]]
 #'
-#' # Wait for finality (strongest guarantee)
+#' # Wait for finality
 #' near_broadcast_tx(signed_tx_b64, wait_until = "FINAL")
 #' }
 #'
