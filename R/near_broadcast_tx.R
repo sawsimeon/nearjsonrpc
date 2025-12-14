@@ -28,7 +28,7 @@
 #'
 #' # Generate a signed transaction using near-cli (harmless view call):
 #' # In your terminal run:
-#' # near call wrap.testnet ft_metadata '{}' \
+#' # near call wrap.testnet ft_metadata \'{}\' \
 #' #   --accountId sawsimeon.testnet \
 #' #   --signWithOfflineKeyPair
 #'
