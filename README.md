@@ -48,6 +48,7 @@ remotes::install_github("sawsimeon/nearjsonrpc")
 
 DO NOT run real transactions on mainnet without fully understanding. Regarding the function `near_broadcast_tx()`, sending a real sign transaction
 on mainnet will:
+
 - Transfer real NEAR tokens
 - Call real contracts
 - Cost real gas
