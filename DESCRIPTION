@@ -26,6 +26,6 @@ Suggests:
     pkgdown,
     httptest2
 VignetteBuilder: knitr
-URL: https://github.com/sawsimeon/nearjsonrpc
+URL: https://github.com/sawsimeon/nearjsonrpc, https://sawsimeon.github.io/nearjsonrpc/
 BugReports: https://github.com/sawsimeon/nearjsonrpc/issues
 RoxygenNote: 7.3.3
