@@ -264,11 +264,6 @@ Latest block
 near_get_block("final")
 ```
 
-Block by height
-
-```{r height_block, eval = TRUE}
-near_get_block(176259877)
-```
 
 Block by hash
 
@@ -276,8 +271,12 @@ Block by hash
 near_get_block("CanDKa6nYDQ89iv5U7sE1YDFteBRkBG6qBJjiM5YwGtY")
 ```
 
+## Check Transaction Status
 
-
+```{r check_transaction, eval = TRUE}
+near_get_transaction_status("B3ho6i6nDbJm95PpXuhbZXhGwZzJkhMkwf8qpbu35AMr", 
+                            "meteor-relayer.near")
+```
 
 # Error handling and best practices
 
